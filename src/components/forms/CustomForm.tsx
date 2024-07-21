@@ -9,6 +9,7 @@ interface Config {
   value: string;
   placeholder: string;
   required?: boolean;
+  error?: string | undefined;
 }
 
 interface CustomFormProps {
@@ -39,6 +40,7 @@ const CustomForm = ({
           placeholder={input.placeholder}
           label={input.labelText}
           required={input.required}
+          error={input.error}
         />
       ))}
       <div className="space-y-0">

@@ -18,7 +18,7 @@ const Input = ({
   error,
 }: InputProps) => {
   return (
-    <>
+    <div>
       <label
         className={`text-black w-full flex flex-col justify-between items-start relative border border-black rounded-sm`}
         htmlFor={label}
@@ -43,8 +43,8 @@ const Input = ({
           }`}
         />
       </label>
-      {/* {error && <p className="text-red-500 mb-2 ml-1">{error}</p>} */}
-    </>
+      {error && <p className="text-red-500 text-start">{error}</p>}
+    </div>
   );
 };
 

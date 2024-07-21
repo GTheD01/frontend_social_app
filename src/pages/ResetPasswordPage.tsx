@@ -1,13 +1,20 @@
 import { Link } from "react-router-dom";
+import ResetPasswordForm from "../components/forms/ResetPasswordForm";
 
 const ResetPasswordPage = () => {
   return (
-    <>
-      <h1 className="font-bold text-3xl mb-2">Page is not yet completed</h1>
-      <Link to="/login" className="text-xl text-sky-700 hover:text-sky-800">
-        {"<-"} Back to login
-      </Link>
-    </>
+    <div className="w-1/2 m-auto border border-black p-4 rounded-md">
+      <h1 className="text-3xl font-bold mb-6">Reset Password</h1>
+      <ResetPasswordForm />
+      <div className="flex justify-between text-sky-500">
+        <Link to="/login" className="hover:text-sky-600">
+          Back to Login
+        </Link>
+        <Link to="/register" className="hover:text-sky-600">
+          Sign up
+        </Link>
+      </div>
+    </div>
   );
 };
 

@@ -1,25 +1,8 @@
-import { ChangeEvent, FormEvent } from "react";
-import { ErrorObject } from "../../types/zodTypes";
 import CustomForm from "./CustomForm";
+import useLogin from "../../hooks/useLogin";
 
-type LoginFormData = {
-  email: string;
-  password: string;
-};
-
-interface LoginFormProps {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  errors?: ErrorObject;
-  formData: LoginFormData;
-}
-
-const LoginForm = ({
-  errors,
-  onChange,
-  onSubmit,
-  formData,
-}: LoginFormProps) => {
+const LoginForm = () => {
+  const { formData, onChange, onSubmit, errors } = useLogin();
   const { email, password } = formData;
 
   const config = [
@@ -30,6 +13,7 @@ const LoginForm = ({
       value: email,
       placeholder: "Enter your email",
       required: true,
+      error: errors.email,
     },
     {
       labelText: "password",
@@ -38,6 +22,7 @@ const LoginForm = ({
       value: password,
       placeholder: "Enter your password",
       required: true,
+      error: errors.password,
     },
   ];
 

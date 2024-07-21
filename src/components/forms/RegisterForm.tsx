@@ -1,28 +1,8 @@
-import { ChangeEvent, FormEvent } from "react";
-
-import { ErrorObject } from "../../types/zodTypes";
 import CustomForm from "./CustomForm";
+import useRegister from "../../hooks/useRegister";
 
-type RegisterFormData = {
-  email: string;
-  username: string;
-  password: string;
-  fullName: string;
-};
-
-interface RegisterFormProps {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void;
-  errors?: ErrorObject;
-  formData: RegisterFormData;
-}
-
-const RegisterForm = ({
-  errors,
-  onChange,
-  onSubmit,
-  formData,
-}: RegisterFormProps) => {
+const RegisterForm = () => {
+  const { formData, onChange, onSubmit, errors } = useRegister();
   const { email, password, username, fullName } = formData;
 
   const config = [
@@ -33,6 +13,7 @@ const RegisterForm = ({
       value: email,
       placeholder: "Email",
       required: true,
+      error: errors.email,
     },
     {
       labelText: "fullName",
@@ -41,6 +22,7 @@ const RegisterForm = ({
       value: fullName,
       placeholder: "Full Name",
       required: true,
+      error: errors.fullName,
     },
     {
       labelText: "username",
@@ -49,6 +31,7 @@ const RegisterForm = ({
       value: username,
       placeholder: "Username",
       required: true,
+      error: errors.username,
     },
     {
       labelText: "password",
@@ -57,6 +40,7 @@ const RegisterForm = ({
       value: password,
       placeholder: "Password",
       required: true,
+      error: errors.password,
     },
   ];
 

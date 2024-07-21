@@ -1,20 +1,12 @@
 import { Link } from "react-router-dom";
 import LoginForm from "../components/forms/LoginForm";
-import useLogin from "../hooks/useLogin";
 
 function LoginPage() {
-  const { formData, onChange, onSubmit, errors } = useLogin();
-
   return (
     <>
       <div className="w-1/2 m-auto border border-black p-4 rounded-md">
         <h1 className="text-3xl font-bold mb-6">Login</h1>
-        <LoginForm
-          onChange={onChange}
-          onSubmit={onSubmit}
-          formData={formData}
-          errors={errors}
-        />
+        <LoginForm />
         <Link
           to="/password-reset"
           className=" text-blue-900 cursor-pointer hover:text-blue-700"
