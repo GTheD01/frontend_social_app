@@ -2,7 +2,7 @@ import CustomForm from "./CustomForm";
 import useLogin from "../../hooks/useLogin";
 
 const LoginForm = () => {
-  const { formData, onChange, onSubmit, errors } = useLogin();
+  const { formData, onChange, onSubmit, errors, isLoading } = useLogin();
   const { email, password } = formData;
 
   const config = [
@@ -30,7 +30,7 @@ const LoginForm = () => {
     <CustomForm
       btnText="Log in"
       config={config}
-      isLoading={false}
+      isLoading={isLoading}
       onChange={onChange}
       onSubmit={onSubmit}
     />

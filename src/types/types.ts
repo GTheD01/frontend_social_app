@@ -14,3 +14,13 @@ export interface RegisterUserResponseProps {
   first_name: string;
   last_name: string;
 }
+
+export interface LoginUserProps {
+  email: string;
+  password: string;
+}
+
+export interface LoginUserResponseProps {
+  refresh: string;
+  access: string;
+}

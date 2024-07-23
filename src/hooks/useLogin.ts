@@ -4,13 +4,23 @@ import { ErrorObject } from "../types/zodTypes";
 import { toErrorObject } from "../lib/utils";
 import { z } from "zod";
 import { LoginUserSchema } from "../schemas";
+import { useLoginMutation } from "../redux/features/authApiSlice";
+import { useAppDispatch } from "../redux/hooks";
+import { setAuth } from "../redux/features/authSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const useLogin = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [errors, setErrors] = useState<ErrorObject>({});
+  const { email, password } = formData;
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -23,6 +33,16 @@ const useLogin = () => {
     try {
       LoginUserSchema.parse(formData);
       setErrors({});
+      login({ email, password })
+        .unwrap()
+        .then(() => {
+          dispatch(setAuth());
+          toast.success("Logged in");
+          navigate("/dashboard");
+        })
+        .catch(() => {
+          toast.error("Failed to log in");
+        });
     } catch (e) {
       if (e instanceof z.ZodError) {
         setErrors(toErrorObject(e.errors));
@@ -37,6 +57,7 @@ const useLogin = () => {
     onChange,
     onSubmit,
     errors,
+    isLoading,
   };
 };
 

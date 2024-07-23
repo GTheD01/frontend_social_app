@@ -1,4 +1,6 @@
 import {
+  LoginUserProps,
+  LoginUserResponseProps,
   RegisterUserProps,
   RegisterUserResponseProps,
 } from "../../types/types";
@@ -14,7 +16,21 @@ const authApiSlice = apiSlice.injectEndpoints({
         body: { first_name, last_name, email, password, re_password },
       }),
     }),
+    verify: builder.mutation({
+      query: () => ({
+        url: "/jwt/verify/",
+        method: "POST",
+      }),
+    }),
+    login: builder.mutation<LoginUserResponseProps, LoginUserProps>({
+      query: ({ email, password }) => ({
+        url: "/jwt/create/",
+        method: "POST",
+        body: { email, password },
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation } = authApiSlice;
+export const { useRegisterMutation, useVerifyMutation, useLoginMutation } =
+  authApiSlice;

@@ -1,7 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
+import RequireAuth from "../lib/RequireAuth";
+
+import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-import HomePage from "../pages/HomePage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 
 const router = createBrowserRouter([
@@ -14,12 +16,21 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: "/register",
+        path: "register",
         element: <RegisterPage />,
       },
       {
         path: "password-reset",
         element: <ResetPasswordPage />,
+      },
+    ],
+  },
+  {
+    element: <RequireAuth />,
+    children: [
+      {
+        path: "/dashboard",
+        element: <div>Test</div>,
       },
     ],
   },

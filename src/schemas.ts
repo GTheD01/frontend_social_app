@@ -5,9 +5,24 @@ export const LoginUserSchema = z.object({
   password: z.string().min(8, "Password must contain at least 8 characters"),
 });
 
-export const RegisterUserSchema = z.object({
-  email: z.string().email("Invalid email"),
-  fullName: z.string().min(5, "Full Name should be longer"),
-  username: z.string().min(3, "Username must be longer than 3 characters"),
-  password: z.string().min(8, "Password must contain at least 8 characters"),
-});
+export const RegisterUserSchema = z
+  .object({
+    email: z.string().email("Invalid email"),
+    first_name: z
+      .string()
+      .min(2, "First Name must be longet than 2 characters"),
+    last_name: z.string().min(2, "Last name must be longer than 2 characters"),
+    password: z.string().min(8, "Password must contain at least 8 characters"),
+    re_password: z
+      .string()
+      .min(8, "Password must contain at least 8 characters"),
+  })
+  .refine(
+    (values) => {
+      return values.password === values.re_password;
+    },
+    {
+      message: "Passwords must match!",
+      path: ["re_password"],
+    }
+  );

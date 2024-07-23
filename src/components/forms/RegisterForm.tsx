@@ -2,10 +2,28 @@ import CustomForm from "./CustomForm";
 import useRegister from "../../hooks/useRegister";
 
 const RegisterForm = () => {
-  const { formData, onChange, onSubmit, errors } = useRegister();
-  const { email, password, username, fullName } = formData;
+  const { formData, onChange, onSubmit, errors, isLoading } = useRegister();
+  const { email, password, last_name, first_name, re_password } = formData;
 
   const config = [
+    {
+      labelText: "first_name",
+      labelId: "first_name",
+      type: "text",
+      value: first_name,
+      placeholder: "First Name",
+      required: true,
+      error: errors.first_name,
+    },
+    {
+      labelText: "last_name",
+      labelId: "last_name",
+      type: "text",
+      value: last_name,
+      placeholder: "Last Name",
+      required: true,
+      error: errors.last_name,
+    },
     {
       labelText: "email",
       labelId: "email",
@@ -15,24 +33,7 @@ const RegisterForm = () => {
       required: true,
       error: errors.email,
     },
-    {
-      labelText: "fullName",
-      labelId: "fullName",
-      type: "fullName",
-      value: fullName,
-      placeholder: "Full Name",
-      required: true,
-      error: errors.fullName,
-    },
-    {
-      labelText: "username",
-      labelId: "username",
-      type: "text",
-      value: username,
-      placeholder: "Username",
-      required: true,
-      error: errors.username,
-    },
+
     {
       labelText: "password",
       labelId: "password",
@@ -42,13 +43,22 @@ const RegisterForm = () => {
       required: true,
       error: errors.password,
     },
+    {
+      labelText: "re_password",
+      labelId: "re_password",
+      type: "password",
+      value: re_password,
+      placeholder: "Repeat password",
+      required: true,
+      error: errors.re_password,
+    },
   ];
 
   return (
     <CustomForm
       btnText="Sign up"
       config={config}
-      isLoading={false}
+      isLoading={isLoading}
       onChange={onChange}
       onSubmit={onSubmit}
     />
