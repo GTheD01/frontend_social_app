@@ -26,3 +26,26 @@ export const RegisterUserSchema = z
       path: ["re_password"],
     }
   );
+
+export const ResetPasswordUserSchema = z.object({
+  email: z.string().email("Invalid email"),
+});
+
+export const ResetPasswordConfirmSchema = z
+  .object({
+    new_password: z
+      .string()
+      .min(8, "Password must contain at least 8 characters"),
+    re_new_password: z
+      .string()
+      .min(8, "Password must contain at least 8 characters"),
+  })
+  .refine(
+    (values) => {
+      return values.new_password === values.re_new_password;
+    },
+    {
+      message: "Passwords must match!",
+      path: ["re_new_password"],
+    }
+  );

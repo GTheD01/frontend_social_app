@@ -3,9 +3,13 @@ import { ErrorObject } from "../types/zodTypes";
 
 import { toErrorObject } from "../lib/utils";
 import { z } from "zod";
-import { LoginUserSchema } from "../schemas";
+import { ResetPasswordUserSchema } from "../schemas";
+import { useResetPasswordMutation } from "../redux/features/authApiSlice";
+import { toast } from "react-toastify";
 
 const useResetPassword = () => {
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
+
   const [formData, setFormData] = useState({
     email: "",
   });
@@ -17,11 +21,24 @@ const useResetPassword = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const { email } = formData;
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      LoginUserSchema.parse(formData);
+      ResetPasswordUserSchema.parse(formData);
       setErrors({});
+      resetPassword(email)
+        .unwrap()
+        .then(() => {
+          toast.success("Request sent, check your email for reset link");
+        })
+        .catch(() => {
+          toast.error("Failed to sent request.");
+        })
+        .finally(() => {
+          setFormData({ email: "" });
+        });
     } catch (e) {
       if (e instanceof z.ZodError) {
         setErrors(toErrorObject(e.errors));
@@ -36,6 +53,7 @@ const useResetPassword = () => {
     onChange,
     onSubmit,
     errors,
+    isLoading,
   };
 };
 

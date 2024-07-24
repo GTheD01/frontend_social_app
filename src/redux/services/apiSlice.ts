@@ -31,7 +31,10 @@ const baseQueryWithReauth: BaseQueryFn<
   // then we need to check for error.status 400 as well
   // with 401 we just make sure if we have the access token
   // we are authorized even after refershing the page
-  if (result.error && result.error.status === 401) {
+  if (
+    (result.error && result.error.status === 401) ||
+    result.error?.status === 400
+  ) {
     // checking whether the mutex is locked
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();

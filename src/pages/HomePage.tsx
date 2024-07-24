@@ -9,8 +9,12 @@ const HomePage = () => {
     <div className="h-full flex justify-center items-center w-full">
       <div className="flex items-center gap-4 w-full h-full">
         <div className="bg-sky-500 w-1/2 h-full content-center text-center">
-          <h1 className="font-bold text-8xl tracking-wide">Socializing</h1>
-          <p className="tracking-wide text-xl mt-4">Let's hang out together.</p>
+          <h1 className="font-bold lg:text-8xl md:text-6xl text-4xl tracking-wide">
+            Socializing
+          </h1>
+          <p className="tracking-wide md:text-xl text-sm mt-4">
+            Let's hang out together.
+          </p>
         </div>
         <div className="text-center w-1/2">
           {location.pathname === "/" && <LoginPage />}

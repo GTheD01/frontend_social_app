@@ -5,6 +5,8 @@ import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
+import ActivateUserPage from "../pages/ActivateUserPage";
+import ResetPasswordConfirmPage from "../pages/ResetPasswordConfirmPage";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
       {
         path: "password-reset",
         element: <ResetPasswordPage />,
+      },
+      {
+        path: "password-reset/:uid/:token",
+        element: <ResetPasswordConfirmPage />,
+      },
+      {
+        path: "activation/:uid/:token",
+        element: <ActivateUserPage />,
       },
     ],
   },

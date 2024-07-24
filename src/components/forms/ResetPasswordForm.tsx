@@ -2,7 +2,8 @@ import useResetPassword from "../../hooks/useResetPassword";
 import CustomForm from "./CustomForm";
 
 const ResetPasswordForm = () => {
-  const { formData, onChange, onSubmit, errors } = useResetPassword();
+  const { formData, onChange, onSubmit, errors, isLoading } =
+    useResetPassword();
   const { email } = formData;
 
   const config = [
@@ -22,7 +23,7 @@ const ResetPasswordForm = () => {
       onChange={onChange}
       onSubmit={onSubmit}
       btnText="Send email"
-      isLoading={false}
+      isLoading={isLoading}
     />
   );
 };

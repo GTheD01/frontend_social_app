@@ -1,3 +1,4 @@
+import { url } from "inspector";
 import {
   LoginUserProps,
   LoginUserResponseProps,
@@ -29,8 +30,35 @@ const authApiSlice = apiSlice.injectEndpoints({
         body: { email, password },
       }),
     }),
+    activateUser: builder.mutation({
+      query: ({ uid, token }) => ({
+        url: "/users/activation/",
+        method: "POST",
+        body: { uid, token },
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (email) => ({
+        url: "/users/reset_password/",
+        method: "POST",
+        body: { email },
+      }),
+    }),
+    resetPasswordConfirm: builder.mutation({
+      query: ({ uid, token, new_password, re_new_password }) => ({
+        url: "/users/reset_password_confirm/",
+        method: "POST",
+        body: { uid, token, new_password, re_new_password },
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useVerifyMutation, useLoginMutation } =
-  authApiSlice;
+export const {
+  useRegisterMutation,
+  useVerifyMutation,
+  useLoginMutation,
+  useActivateUserMutation,
+  useResetPasswordMutation,
+  useResetPasswordConfirmMutation,
+} = authApiSlice;
