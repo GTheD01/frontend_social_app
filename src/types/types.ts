@@ -24,3 +24,19 @@ export interface LoginUserResponseProps {
   refresh: string;
   access: string;
 }
+
+export interface ActivateUserProps {
+  uid: string;
+  token: string;
+}
+
+export interface ResetPasswordProps {
+  email: string;
+}
+
+export interface ResetPasswordConfirmProps {
+  uid?: string;
+  token?: string;
+  new_password?: string;
+  re_new_password?: string;
+}

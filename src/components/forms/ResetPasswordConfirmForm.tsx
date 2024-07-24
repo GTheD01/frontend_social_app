@@ -1,13 +1,11 @@
 import CustomForm from "./CustomForm";
 import useResetPasswordConfirm from "../../hooks/useResetPasswordConfirm";
+import { ResetPasswordConfirmProps } from "../../types/types";
 
 const useResetPasswordConfirmForm = ({
   uid,
   token,
-}: {
-  uid: string;
-  token: string;
-}) => {
+}: ResetPasswordConfirmProps) => {
   const { formData, onChange, onSubmit, errors, isLoading } =
     useResetPasswordConfirm({ uid, token });
   const { new_password, re_new_password } = formData;

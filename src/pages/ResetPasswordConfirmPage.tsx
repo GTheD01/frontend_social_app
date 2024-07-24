@@ -1,10 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import ResetPasswordConfirmForm from "../components/forms/ResetPasswordConfirmForm";
+import { ResetPasswordConfirmProps } from "../types/types";
 
-interface RouteParamsProps extends Record<string, string | undefined> {
-  uid?: string;
-  token?: string;
-}
+type RouteParamsProps = ResetPasswordConfirmProps &
+  Record<string, string | undefined>;
 
 const ResetPasswordConfirmPage = () => {
   const { uid, token } = useParams<RouteParamsProps>();

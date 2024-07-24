@@ -7,14 +7,9 @@ import { ResetPasswordConfirmSchema } from "../schemas";
 import { useResetPasswordConfirmMutation } from "../redux/features/authApiSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { ResetPasswordConfirmProps } from "../types/types";
 
-const useResetPasswordConfirm = ({
-  uid,
-  token,
-}: {
-  uid: string;
-  token: string;
-}) => {
+const useResetPasswordConfirm = ({ uid, token }: ResetPasswordConfirmProps) => {
   const [resetPasswordConfirm, { isLoading }] =
     useResetPasswordConfirmMutation();
 
