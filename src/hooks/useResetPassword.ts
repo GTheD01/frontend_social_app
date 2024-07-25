@@ -28,7 +28,7 @@ const useResetPassword = () => {
     try {
       ResetPasswordUserSchema.parse(formData);
       setErrors({});
-      resetPassword(email)
+      resetPassword({ email })
         .unwrap()
         .then(() => {
           toast.success("Request sent, check your email for reset link");

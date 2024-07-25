@@ -1,4 +1,3 @@
-import { url } from "inspector";
 import {
   ActivateUserProps,
   LoginUserProps,
@@ -41,7 +40,7 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
     }),
     resetPassword: builder.mutation<void, ResetPasswordProps>({
-      query: (email) => ({
+      query: ({ email }) => ({
         url: "/users/reset_password/",
         method: "POST",
         body: { email },

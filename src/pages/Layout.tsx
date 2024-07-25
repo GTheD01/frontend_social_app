@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import LoginPage from "./LoginPage";
 
-const HomePage = () => {
+const Layout = () => {
   const location = useLocation();
   const currentYear = new Date().getFullYear();
 
@@ -28,4 +28,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Layout;

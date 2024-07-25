@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent } from "react";
 import { Form } from "react-router-dom";
 import Input from "../Input";
+import Spinner from "../Spinner";
 
 interface Config {
   labelText: string;
@@ -49,7 +50,7 @@ const CustomForm = ({
           type="submit"
           className="text-blue-500 bg-white p-2 rounded-2xl w-full hover:bg-gray-100 font-bold tracking-wide disabled:bg-white/30 disabled:text-blue-500/60 mb-4"
         >
-          {isLoading ? "Loading..." : btnText}
+          {isLoading ? <Spinner /> : btnText}
         </button>
       </div>
     </Form>

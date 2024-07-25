@@ -38,7 +38,7 @@ const useLogin = () => {
         .then(() => {
           dispatch(setAuth());
           toast.success("Logged in");
-          navigate("/dashboard");
+          navigate("/home");
         })
         .catch(() => {
           toast.error("Failed to log in");

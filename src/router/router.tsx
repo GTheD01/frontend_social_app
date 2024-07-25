@@ -1,17 +1,32 @@
 import { createBrowserRouter } from "react-router-dom";
 import RequireAuth from "../lib/RequireAuth";
 
-import HomePage from "../pages/HomePage";
+// import Layout from "../pages/Layout";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import ActivateUserPage from "../pages/ActivateUserPage";
 import ResetPasswordConfirmPage from "../pages/ResetPasswordConfirmPage";
+import { lazy, Suspense } from "react";
+import Spinner from "../components/Spinner";
+
+// import LayoutAuthPage from "../pages/authenticated/LayoutAuthPage";
+// import HomePage from "../pages/authenticated/HomePage";
+
+const Layout = lazy(() => import("../pages/Layout"));
+const LayoutAuthPage = lazy(
+  () => import("../pages/authenticated/LayoutAuthPage")
+);
+const HomePage = lazy(() => import("../pages/authenticated/HomePage"));
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: (
+      <Suspense fallback={<Spinner />}>
+        <Layout />
+      </Suspense>
+    ),
     children: [
       {
         path: "login",
@@ -39,8 +54,22 @@ const router = createBrowserRouter([
     element: <RequireAuth />,
     children: [
       {
-        path: "/dashboard",
-        element: <div>Test</div>,
+        path: "/home",
+        element: (
+          <Suspense fallback={<Spinner />}>
+            <LayoutAuthPage />
+          </Suspense>
+        ),
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<Spinner />}>
+                <HomePage />
+              </Suspense>
+            ),
+          },
+        ],
       },
     ],
   },

@@ -26,8 +26,8 @@ export interface LoginUserResponseProps {
 }
 
 export interface ActivateUserProps {
-  uid: string;
-  token: string;
+  uid?: string;
+  token?: string;
 }
 
 export interface ResetPasswordProps {
