@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent } from "react";
 import { Form } from "react-router-dom";
-import Input from "../Input";
-import Spinner from "../Spinner";
+import Input from "./Input";
+import Spinner from "../common/Spinner";
 
 interface Config {
   labelText: string;

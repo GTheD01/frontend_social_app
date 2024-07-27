@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAppSelector } from "../redux/hooks";
-import Spinner from "../components/Spinner";
+import Spinner from "../components/common/Spinner";
 
 const RequireAuth = () => {
   const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth);

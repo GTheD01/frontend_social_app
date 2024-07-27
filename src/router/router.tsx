@@ -8,7 +8,7 @@ import ResetPasswordPage from "../pages/ResetPasswordPage";
 import ActivateUserPage from "../pages/ActivateUserPage";
 import ResetPasswordConfirmPage from "../pages/ResetPasswordConfirmPage";
 import { lazy, Suspense } from "react";
-import Spinner from "../components/Spinner";
+import Spinner from "../components/common/Spinner";
 
 // import LayoutAuthPage from "../pages/authenticated/LayoutAuthPage";
 // import HomePage from "../pages/authenticated/HomePage";
@@ -54,7 +54,6 @@ const router = createBrowserRouter([
     element: <RequireAuth />,
     children: [
       {
-        path: "/home",
         element: (
           <Suspense fallback={<Spinner />}>
             <LayoutAuthPage />
@@ -62,12 +61,16 @@ const router = createBrowserRouter([
         ),
         children: [
           {
-            index: true,
+            path: "/home",
             element: (
               <Suspense fallback={<Spinner />}>
                 <HomePage />
               </Suspense>
             ),
+          },
+          {
+            path: "/explore",
+            element: <div>Explore</div>,
           },
         ],
       },
