@@ -8,6 +8,7 @@ const ActivateUserPage = () => {
   const navigate = useNavigate();
   const [activateUser] = useActivateUserMutation();
 
+
   useEffect(() => {
     activateUser({ uid, token })
       .unwrap()

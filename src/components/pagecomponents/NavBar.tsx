@@ -1,8 +1,15 @@
-import { IoSearchSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import { logout as setLogout } from "../../redux/features/authSlice";
+import { useLogoutMutation } from "../../redux/features/authApiSlice";
+
+import { IoSearchSharp } from "react-icons/io5";
 import logo from "../../assets/result.png";
+import { useAppDispatch } from "../../redux/hooks";
 
 const NavBar = () => {
+  const dispatch = useAppDispatch();
+  const [logout] = useLogoutMutation();
+
   const links = [
     {
       href: "/home",
@@ -20,11 +27,16 @@ const NavBar = () => {
       href: "/settings",
       text: "Settings",
     },
-    {
-      href: "/logout",
-      text: "Logout",
-    },
   ];
+
+  const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    logout(undefined)
+      .unwrap()
+      .then(() => {
+        dispatch(setLogout());
+      });
+  };
 
   return (
     <div className="h-full">
@@ -66,6 +78,13 @@ const NavBar = () => {
             ))}
           </ul>
         </nav>
+        <button
+          type="submit"
+          onClick={handleLogout}
+          className="text-xl text-gray-400 hover:bg-gray-300 mt-auto p-4 text-left"
+        >
+          Logout
+        </button>
       </div>
     </div>
   );
