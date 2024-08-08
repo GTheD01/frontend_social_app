@@ -8,10 +8,8 @@ export const LoginUserSchema = z.object({
 export const RegisterUserSchema = z
   .object({
     email: z.string().email("Invalid email"),
-    first_name: z
-      .string()
-      .min(2, "First Name must be longet than 2 characters"),
-    last_name: z.string().min(2, "Last name must be longer than 2 characters"),
+    full_name: z.string().min(5, "Full Name must be longer than 5 characters"),
+    username: z.string().min(2, "Username must be longer than 2 characters"),
     password: z.string().min(8, "Password must contain at least 8 characters"),
     re_password: z
       .string()

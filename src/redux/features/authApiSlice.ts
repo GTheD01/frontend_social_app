@@ -2,10 +2,12 @@ import {
   ActivateUserProps,
   LoginUserProps,
   LoginUserResponseProps,
+  PostProps,
   RegisterUserProps,
   RegisterUserResponseProps,
   ResetPasswordConfirmProps,
   ResetPasswordProps,
+  UserProps,
 } from "../../types/types";
 
 import { apiSlice } from "../services/apiSlice";
@@ -13,10 +15,10 @@ import { apiSlice } from "../services/apiSlice";
 const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation<RegisterUserResponseProps, RegisterUserProps>({
-      query: ({ first_name, last_name, email, password, re_password }) => ({
+      query: ({ full_name, username, email, password, re_password }) => ({
         url: "/users/",
         method: "POST",
-        body: { first_name, last_name, email, password, re_password },
+        body: { full_name, username, email, password, re_password },
       }),
     }),
     verify: builder.mutation({
@@ -59,16 +61,44 @@ const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    retrieveUser: builder.query<UserProps, void>({
+      query: () => "/users/me/",
+      providesTags: ["User"],
+    }),
+    createPost: builder.mutation({
+      query: (formData) => ({
+        url: "/posts/create/",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["Post"],
+    }),
+    retrievePosts: builder.query<PostProps[], void>({
+      query: () => "/posts/",
+      providesTags: ["Post"],
+    }),
+    editProfile: builder.mutation({
+      query: (formData) => ({
+        url: "profile/edit/",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
 export const {
+  useRetrieveUserQuery,
+  useRetrievePostsQuery,
+
   useRegisterMutation,
   useVerifyMutation,
   useLoginMutation,
-
   useActivateUserMutation,
   useResetPasswordMutation,
   useResetPasswordConfirmMutation,
   useLogoutMutation,
+  useCreatePostMutation,
+  useEditProfileMutation,
 } = authApiSlice;

@@ -6,6 +6,9 @@ module.exports = {
       width: {
         section: "calc(100% - 24rem)",
       },
+      gridTemplateColumns: {
+        profile: "1fr 2fr",
+      },
     },
   },
   plugins: [],

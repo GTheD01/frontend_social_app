@@ -9,6 +9,8 @@ import ActivateUserPage from "../pages/ActivateUserPage";
 import ResetPasswordConfirmPage from "../pages/ResetPasswordConfirmPage";
 import { lazy, Suspense } from "react";
 import Spinner from "../components/common/Spinner";
+import ProfilePage from "../pages/authenticated/ProfilePage";
+import UserSettingsPage from "../pages/authenticated/UserSettingsPage";
 
 // import LayoutAuthPage from "../pages/authenticated/LayoutAuthPage";
 // import HomePage from "../pages/authenticated/HomePage";
@@ -55,7 +57,13 @@ const router = createBrowserRouter([
     children: [
       {
         element: (
-          <Suspense fallback={<Spinner />}>
+          <Suspense
+            fallback={
+              <div className="h-screen flex justify-center items-center">
+                <Spinner lg />
+              </div>
+            }
+          >
             <LayoutAuthPage />
           </Suspense>
         ),
@@ -63,7 +71,7 @@ const router = createBrowserRouter([
           {
             path: "/home",
             element: (
-              <Suspense fallback={<Spinner />}>
+              <Suspense fallback={<Spinner lg />}>
                 <HomePage />
               </Suspense>
             ),
@@ -71,6 +79,18 @@ const router = createBrowserRouter([
           {
             path: "/explore",
             element: <div>Explore</div>,
+          },
+          {
+            path: "/reels",
+            element: <div>reels</div>,
+          },
+          {
+            path: "/settings",
+            element: <UserSettingsPage />,
+          },
+          {
+            path: "/profile/:username",
+            element: <ProfilePage />,
           },
         ],
       },

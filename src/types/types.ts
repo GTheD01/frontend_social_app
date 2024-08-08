@@ -1,8 +1,8 @@
 // USER TYPES
 
 export interface RegisterUserProps {
-  first_name: string;
-  last_name: string;
+  username: string;
+  full_name: string;
   email: string;
   password: string;
   re_password: string;
@@ -39,4 +39,19 @@ export interface ResetPasswordConfirmProps {
   token?: string;
   new_password?: string;
   re_new_password?: string;
+}
+
+export interface UserProps {
+  id: string;
+  full_name: string;
+  username: string;
+  email: string;
+  get_avatar?: string;
+}
+
+export interface PostProps {
+  id: string;
+  body: string;
+  created_by: UserProps;
+  created_at_formatted: string;
 }

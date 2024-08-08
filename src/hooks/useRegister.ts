@@ -14,8 +14,8 @@ const useRegister = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
+    username: "",
+    full_name: "",
     email: "",
     password: "",
     re_password: "",
@@ -29,7 +29,7 @@ const useRegister = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const { email, first_name, password, re_password, last_name } = formData;
+  const { email, full_name, password, re_password, username } = formData;
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,7 +37,8 @@ const useRegister = () => {
     try {
       RegisterUserSchema.parse(formData);
       setErrors({});
-      register({ first_name, last_name, password, re_password, email })
+      register({ full_name, username, password, re_password, email })
+        .unwrap()
         .then(() => {
           dispatch(setAuth());
           toast.success("Please check email to verify account");

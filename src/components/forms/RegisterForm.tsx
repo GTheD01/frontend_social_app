@@ -3,26 +3,26 @@ import useRegister from "../../hooks/useRegister";
 
 const RegisterForm = () => {
   const { formData, onChange, onSubmit, errors, isLoading } = useRegister();
-  const { email, password, last_name, first_name, re_password } = formData;
+  const { email, password, username, full_name, re_password } = formData;
 
   const config = [
     {
-      labelText: "first_name",
-      labelId: "first_name",
+      labelText: "username",
+      labelId: "username",
       type: "text",
-      value: first_name,
-      placeholder: "First Name",
+      value: username,
+      placeholder: "Username",
       required: true,
-      error: errors.first_name,
+      error: errors.username,
     },
     {
-      labelText: "last_name",
-      labelId: "last_name",
+      labelText: "full_name",
+      labelId: "full_name",
       type: "text",
-      value: last_name,
-      placeholder: "Last Name",
+      value: full_name,
+      placeholder: "Full Name",
       required: true,
-      error: errors.last_name,
+      error: errors.full_name,
     },
     {
       labelText: "email",

@@ -1,14 +1,19 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { logout as setLogout } from "../../redux/features/authSlice";
-import { useLogoutMutation } from "../../redux/features/authApiSlice";
+import {
+  useLogoutMutation,
+  useRetrieveUserQuery,
+} from "../../redux/features/authApiSlice";
 
 import { IoSearchSharp } from "react-icons/io5";
 import logo from "../../assets/result.png";
 import { useAppDispatch } from "../../redux/hooks";
+import Spinner from "../common/Spinner";
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
   const [logout] = useLogoutMutation();
+  const { data, isLoading } = useRetrieveUserQuery();
 
   const links = [
     {
@@ -49,15 +54,24 @@ const NavBar = () => {
             className="w-full placeholder-gray-300 outline-none [&::-webkit-search-cancel-button]:hidden p-2"
           />
         </div>
-        <div className="p-4">
-          <img
-            src={logo}
-            alt=""
-            className="w-12 h-12 rounded-full border object-contain"
-          />
-          <h1 className="font-semibold mt-4 text-xl">Georgi Popeftimov</h1>
-          <p className="font-light text-gray-400 text-sm">Software Engineer</p>
-        </div>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className="p-4">
+            <img
+              src={logo}
+              alt=""
+              className="w-12 h-12 rounded-full border object-contain"
+            />
+            <Link
+              to={`/profile/${data?.username}`}
+              className="font-semibold mt-4 text-xl"
+            >
+              {data?.full_name}
+            </Link>
+            <p className="font-light text-gray-400 text-sm">{data?.username}</p>
+          </div>
+        )}
         <nav className="">
           <ul className="flex flex-col">
             {links.map((link) => (

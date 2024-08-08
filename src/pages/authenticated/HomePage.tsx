@@ -1,14 +1,34 @@
 import logo from "../../assets/result.png";
+
 import PostForm from "../../components/forms/PostForm";
 import PopularPost from "../../components/pagecomponents/PopularPost";
 import SuggestedPeople from "../../components/pagecomponents/SuggestedPeople";
+import Post from "../../components/pagecomponents/Post";
+import { useRetrievePostsQuery } from "../../redux/features/authApiSlice";
+import Spinner from "../../components/common/Spinner";
 
 const HomePage = () => {
+  const { data, isLoading } = useRetrievePostsQuery();
+
   return (
     <div className="flex justify-center gap-4 w-full h-full">
       <div className="w-full max-w-[630px] min-w-96 h-full">
         <PostForm />
-        <div className="pt-12 px-4 break-words">Users Posts</div>
+        <div className="pt-12 px-4 break-words space-y-6 *:last:pb-16">
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            data?.map((post) => (
+              <Post
+                image={post.created_by.get_avatar}
+                username={post.created_by.username}
+                created_at={post.created_at_formatted}
+                body={post.body}
+                key={post.id}
+              />
+            ))
+          )}
+        </div>
       </div>
 
       <div className="mr-4 w-72 ">
