@@ -71,9 +71,19 @@ const Post = ({
       }
     };
 
-    document.addEventListener("click", closeModal);
+    const closeModalOnEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && actionModal) {
+        toggleModal("");
+      }
+    };
 
-    return () => document.removeEventListener("click", closeModal);
+    document.addEventListener("click", closeModal);
+    document.addEventListener("keydown", closeModalOnEscape);
+
+    return () => {
+      document.removeEventListener("click", closeModal);
+      document.removeEventListener("keydown", closeModalOnEscape);
+    };
   }, [actionModal, toggleModal]);
 
   return (
@@ -88,7 +98,7 @@ const Post = ({
 
           <div>
             <Link
-              to={`/post/${postId}`}
+              to={`/profile/${username}`}
               className="font-semibold cursor-pointer"
             >
               {username}
@@ -100,7 +110,7 @@ const Post = ({
         <button
           id={`btn-${postId}`}
           onClick={() => toggleModal(postId)}
-          className="cursor-pointer relative"
+          className="cursor-pointer relative outline-none"
         >
           <HiDotsVertical className="text-gray-500 text-xl pointer-events-none" />
 
