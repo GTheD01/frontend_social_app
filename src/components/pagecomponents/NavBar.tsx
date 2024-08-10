@@ -5,10 +5,10 @@ import {
   useRetrieveUserQuery,
 } from "../../redux/features/authApiSlice";
 
-import { IoSearchSharp } from "react-icons/io5";
-import logo from "../../assets/result.png";
 import { useAppDispatch } from "../../redux/hooks";
 import Spinner from "../common/Spinner";
+
+import { IoSearchSharp } from "react-icons/io5";
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -40,6 +40,7 @@ const NavBar = () => {
       .unwrap()
       .then(() => {
         dispatch(setLogout());
+        window.location.reload();
       });
   };
 
@@ -59,7 +60,7 @@ const NavBar = () => {
         ) : (
           <div className="p-4">
             <img
-              src={logo}
+              src={data?.get_avatar}
               alt=""
               className="w-12 h-12 rounded-full border object-contain"
             />

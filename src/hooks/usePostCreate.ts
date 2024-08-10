@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useCreatePostMutation } from "../redux/features/authApiSlice";
+import { toast } from "react-toastify";
 
 const usePostCreate = () => {
   const [createPost, { isLoading }] = useCreatePostMutation();
@@ -18,10 +19,12 @@ const usePostCreate = () => {
     createPost(formData)
       .unwrap()
       .then((response) => {
-        console.log(response);
+        toast.success("Post created");
+        setBody("");
       })
       .catch((err) => {
         console.log(err);
+        // toast.success(err);
       });
   };
 

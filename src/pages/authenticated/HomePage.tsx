@@ -1,11 +1,12 @@
-import logo from "../../assets/result.png";
-
-import PostForm from "../../components/forms/PostForm";
-import PopularPost from "../../components/pagecomponents/PopularPost";
 import SuggestedPeople from "../../components/pagecomponents/SuggestedPeople";
+import PopularPost from "../../components/pagecomponents/PopularPost";
 import Post from "../../components/pagecomponents/Post";
-import { useRetrievePostsQuery } from "../../redux/features/authApiSlice";
+import PostForm from "../../components/forms/PostForm";
 import Spinner from "../../components/common/Spinner";
+
+import { useRetrievePostsQuery } from "../../redux/features/authApiSlice";
+
+import logo from "../../assets/result.png";
 
 const HomePage = () => {
   const { data, isLoading } = useRetrievePostsQuery();
@@ -25,6 +26,7 @@ const HomePage = () => {
                 created_at={post.created_at_formatted}
                 body={post.body}
                 key={post.id}
+                postId={post.id}
               />
             ))
           )}

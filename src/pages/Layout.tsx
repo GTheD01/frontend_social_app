@@ -1,9 +1,15 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import LoginPage from "./LoginPage";
+import { useAppSelector } from "../redux/hooks";
 
 const Layout = () => {
   const location = useLocation();
   const currentYear = new Date().getFullYear();
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+
+  if (isAuthenticated) {
+    return <Navigate to="/home" />;
+  }
 
   return (
     <div className="h-full flex justify-center items-center w-full">

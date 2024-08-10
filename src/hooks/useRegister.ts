@@ -1,12 +1,14 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { ErrorObject } from "../types/zodTypes";
-import { RegisterUserSchema } from "../schemas";
-import { toErrorObject } from "../lib/utils";
-import { z } from "zod";
-import { useRegisterMutation } from "../redux/features/authApiSlice";
-import { useAppDispatch } from "../redux/hooks";
-import { setAuth } from "../redux/features/authSlice";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../redux/hooks";
+import { useRegisterMutation } from "../redux/features/authApiSlice";
+import { setAuth } from "../redux/features/authSlice";
+
+import { z } from "zod";
+import { ErrorObject } from "../types/zodTypes";
+import { toErrorObject } from "../lib/utils";
+import { RegisterUserSchema } from "../schemas";
+
 import { toast } from "react-toastify";
 
 const useRegister = () => {

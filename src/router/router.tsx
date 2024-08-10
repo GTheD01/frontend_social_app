@@ -11,6 +11,7 @@ import { lazy, Suspense } from "react";
 import Spinner from "../components/common/Spinner";
 import ProfilePage from "../pages/authenticated/ProfilePage";
 import UserSettingsPage from "../pages/authenticated/UserSettingsPage";
+import PostPage from "../pages/authenticated/PostPage";
 
 // import LayoutAuthPage from "../pages/authenticated/LayoutAuthPage";
 // import HomePage from "../pages/authenticated/HomePage";
@@ -23,7 +24,7 @@ const HomePage = lazy(() => import("../pages/authenticated/HomePage"));
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "",
     element: (
       <Suspense fallback={<Spinner />}>
         <Layout />
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
           {
             path: "/profile/:username",
             element: <ProfilePage />,
+          },
+          {
+            path: "/post/:postId",
+            element: <PostPage />,
           },
         ],
       },

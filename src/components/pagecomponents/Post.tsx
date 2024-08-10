@@ -1,3 +1,13 @@
+import { useCallback, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { useDeletePostMutation } from "../../redux/features/authApiSlice";
+import { toggleActionModal } from "../../redux/features/postSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import PostModal from "./PostModal";
+
+import { toast } from "react-toastify";
+
 import { GrLike } from "react-icons/gr";
 import { FaRegComment } from "react-icons/fa";
 import { BsCollection } from "react-icons/bs";
@@ -10,6 +20,7 @@ interface PostProps {
   attachments?: string;
   created_at: string;
   body: string;
+  postId: string;
 }
 
 const Post = ({
@@ -19,7 +30,52 @@ const Post = ({
   created_at,
   body,
   attachments,
+  postId,
 }: PostProps) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const { actionModal } = useAppSelector((state) => state.post);
+
+  const [deletePost] = useDeletePostMutation();
+
+  const toggleModal = useCallback(
+    (id: string) => {
+      dispatch(toggleActionModal({ id }));
+    },
+    [dispatch]
+  );
+
+  const postDeleteHandler = () => {
+    deletePost(postId)
+      .unwrap()
+      .then((response) => {
+        toast.success(response.message);
+        navigate("/home");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    const closeModal = (e: MouseEvent) => {
+      // const btnsModal = document.querySelectorAll(
+      //   `button[data-postid='${actionModal}']`
+      // );
+      // const btnModal = btnsModal[0];
+
+      const btnModal = document.getElementById(`btn-${actionModal}`);
+      if (e.target !== btnModal) {
+        toggleModal("");
+      }
+    };
+
+    document.addEventListener("click", closeModal);
+
+    return () => document.removeEventListener("click", closeModal);
+  }, [actionModal, toggleModal]);
+
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -31,14 +87,25 @@ const Post = ({
           />
 
           <div>
-            <p className="font-semibold cursor-pointer">{username}</p>
+            <Link
+              to={`/post/${postId}`}
+              className="font-semibold cursor-pointer"
+            >
+              {username}
+            </Link>
             <p className="text-gray-400 text-xs">{subtitle}</p>
           </div>
           <span className="text-gray-400 text-xs">&#183; {created_at} ago</span>
         </div>
-        <span className="cursor-pointer">
-          <HiDotsVertical className="text-gray-500 text-xl" />
-        </span>
+        <button
+          id={`btn-${postId}`}
+          onClick={() => toggleModal(postId)}
+          className="cursor-pointer relative"
+        >
+          <HiDotsVertical className="text-gray-500 text-xl pointer-events-none" />
+
+          <PostModal postId={postId} postDeleteHandler={postDeleteHandler} />
+        </button>
       </div>
       <div className="py-4">
         <p>{body}</p>

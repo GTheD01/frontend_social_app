@@ -83,12 +83,12 @@ const ProfilePage = () => {
             </span>
           </div>
           <div className="flex flex-col gap-12 mt-12">
-            <Post
+            {/* <Post
               username="popeftimov"
               subtitle="Suggested for you"
               created_at="15 hours"
               body="No photo post"
-            />
+            /> */}
           </div>
         </>
       )}

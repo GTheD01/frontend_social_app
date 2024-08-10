@@ -77,6 +77,16 @@ const authApiSlice = apiSlice.injectEndpoints({
       query: () => "/posts/",
       providesTags: ["Post"],
     }),
+    retrievePostDetails: builder.query({
+      query: (id) => `posts/${id}/`,
+    }),
+    deletePost: builder.mutation({
+      query: (id) => ({
+        url: `posts/delete/${id}/`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Post"],
+    }),
     editProfile: builder.mutation({
       query: (formData) => ({
         url: "profile/edit/",
@@ -91,8 +101,10 @@ const authApiSlice = apiSlice.injectEndpoints({
 export const {
   useRetrieveUserQuery,
   useRetrievePostsQuery,
+  useRetrievePostDetailsQuery,
 
   useRegisterMutation,
+  useDeletePostMutation,
   useVerifyMutation,
   useLoginMutation,
   useActivateUserMutation,
