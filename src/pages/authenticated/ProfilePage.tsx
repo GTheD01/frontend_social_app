@@ -7,6 +7,8 @@ import Post from "../../components/pagecomponents/Post";
 const ProfilePage = () => {
   const { data, isLoading } = useRetrieveUserQuery();
 
+  console.log(data);
+
   return (
     <div className="mx-52 px-5 pt-7">
       {isLoading ? (
@@ -16,7 +18,7 @@ const ProfilePage = () => {
           <header className="grid grid-cols-profile">
             <section className="justify-self-center col-start-1 row-start-1 row-end-5 mr-7">
               <img
-                src={logo}
+                src={data?.get_avatar}
                 className="w-44 h-44 rounded-full"
                 alt="user img"
               />
@@ -33,13 +35,15 @@ const ProfilePage = () => {
             </section>
             <section className="col-start-2 col-end-3 row-start-2 flex gap-4">
               <p>
-                <span className="font-semibold">11</span> posts
+                <span className="font-semibold">{data?.posts_count}</span> posts
               </p>
               <p>
-                <span className="font-semibold">1213</span> followers
+                <span className="font-semibold">{data?.followers_count}</span>{" "}
+                followers
               </p>
               <p>
-                <span className="font-semibold">102</span> following
+                <span className="font-semibold">{data?.following_count}</span>{" "}
+                following
               </p>
             </section>
             <section className="col-start-2 col-end-3 row-start-3  ">

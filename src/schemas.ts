@@ -47,3 +47,7 @@ export const ResetPasswordConfirmSchema = z
       path: ["re_new_password"],
     }
   );
+
+export const PostSchema = z.object({
+  body: z.string().min(1, "Body text required"),
+});

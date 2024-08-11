@@ -12,6 +12,7 @@ import Spinner from "../components/common/Spinner";
 import ProfilePage from "../pages/authenticated/ProfilePage";
 import UserSettingsPage from "../pages/authenticated/UserSettingsPage";
 import PostPage from "../pages/authenticated/PostPage";
+import UsersSearchPage from "../pages/authenticated/UsersSearchPage";
 
 // import LayoutAuthPage from "../pages/authenticated/LayoutAuthPage";
 // import HomePage from "../pages/authenticated/HomePage";
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
           {
             path: "/post/:postId",
             element: <PostPage />,
+          },
+          {
+            path: "/users",
+            element: <UsersSearchPage />,
           },
         ],
       },

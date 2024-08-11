@@ -3,7 +3,7 @@ import usePostCreate from "../../hooks/usePostCreate";
 import Spinner from "../common/Spinner";
 
 const PostForm = () => {
-  const { body, isLoading, onChange, onSubmit } = usePostCreate();
+  const { body, isLoading, onChange, onSubmit, error } = usePostCreate();
 
   return (
     <Form onSubmit={onSubmit} className="shadow-2xl p-4 w-full">
@@ -15,6 +15,7 @@ const PostForm = () => {
         maxLength={1024}
         className="resize-none w-full bg-transparent outline-none h-44 pt-8"
       />
+      <p className="text-red-500">{error?.body}</p>
       <div className="flex justify-between items-center">
         <div className="flex gap-2">
           <span className="cursor-pointer">Attach</span>

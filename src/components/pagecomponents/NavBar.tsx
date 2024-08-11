@@ -55,6 +55,7 @@ const NavBar = () => {
             className="w-full placeholder-gray-300 outline-none [&::-webkit-search-cancel-button]:hidden p-2"
           />
         </div>
+
         {isLoading ? (
           <Spinner />
         ) : (

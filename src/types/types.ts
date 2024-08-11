@@ -47,6 +47,9 @@ export interface UserProps {
   username: string;
   email: string;
   get_avatar?: string;
+  posts_count?: string;
+  followers_count: string;
+  following_count: string;
 }
 
 export interface PostProps {
