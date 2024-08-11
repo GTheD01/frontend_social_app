@@ -21,6 +21,7 @@ const HomePage = () => {
           ) : (
             data?.map((post) => (
               <Post
+                attachments={post.attachments}
                 image={post.created_by.get_avatar}
                 username={post.created_by.username}
                 created_at={post.created_at_formatted}

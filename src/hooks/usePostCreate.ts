@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useCreatePostMutation } from "../redux/features/authApiSlice";
 import { toast } from "react-toastify";
 import { PostSchema } from "../schemas";
@@ -10,41 +10,63 @@ import { toErrorObject } from "../lib/utils";
 const usePostCreate = () => {
   const [createPost, { isLoading }] = useCreatePostMutation();
   const [body, setBody] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [fileUrl, setFileUrl] = useState("");
   const [error, setError] = useState<ErrorObject>();
 
   const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setBody(e.target.value);
   };
 
-  let formData = new FormData();
-  formData.append("body", body);
-
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    try {
-      PostSchema.parse({ body });
-      setError({});
-
-      createPost(formData)
-        .unwrap()
-        .then((response) => {
-          toast.success("Post created");
-          setBody("");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } catch (e) {
-      if (e instanceof z.ZodError) {
-        setError(toErrorObject(e.errors));
-      } else {
-        setError({ error: "Unknown error" });
-      }
+  const imageUploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setSelectedFile(e.target.files[0]);
     }
   };
 
-  return { body, onChange, onSubmit, isLoading, error };
+  useEffect(() => {
+    if (selectedFile) {
+      const url = URL.createObjectURL(selectedFile!);
+      setFileUrl(url);
+    }
+  }, [selectedFile]);
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append("body", body);
+    if (selectedFile) {
+      formData.append("image", selectedFile);
+    }
+
+    createPost(formData)
+      .unwrap()
+      .then((response) => {
+        if (fileInputRef.current) {
+          setSelectedFile(null);
+          fileInputRef.current.value = "";
+        }
+        toast.success("Post created");
+        setBody("");
+      })
+      .catch((err) => {
+        setError({ error: err });
+        console.log(err);
+      });
+  };
+
+  return {
+    body,
+    onChange,
+    onSubmit,
+    isLoading,
+    error,
+    imageUploadHandler,
+    selectedFile,
+    fileInputRef,
+    fileUrl,
+  };
 };
 
 export default usePostCreate;

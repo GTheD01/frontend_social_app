@@ -12,12 +12,13 @@ import { GrLike } from "react-icons/gr";
 import { FaRegComment } from "react-icons/fa";
 import { BsCollection } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
+import { AttachmentProps } from "../../types/types";
 
 interface PostProps {
   image?: string;
   username: string;
   subtitle?: string;
-  attachments?: string;
+  attachments?: AttachmentProps[];
   created_at: string;
   body: string;
   postId: string;
@@ -120,23 +121,26 @@ const Post = ({
       <div className="py-4">
         <p>{body}</p>
       </div>
-      {attachments && (
-        // loop for every image in post attachments
-        <img
-          src={image}
-          className="w-full cursor-pointer"
-          alt="user post img"
-        />
-      )}
-      <div className="flex gap-4">
+      {attachments &&
+        attachments.map((attachment) => (
+          <img
+            src={attachment.get_image}
+            key={attachment.id}
+            className="w-full cursor-pointer"
+          />
+        ))}
+      <div className="flex gap-4 mt-4">
         <span className="flex items-center gap-2 cursor-pointer">
           <GrLike />
           Like
         </span>
-        <span className="flex items-center gap-2 cursor-pointer">
+        <Link
+          to={`/post/${postId}`}
+          className="flex items-center gap-2 cursor-pointer"
+        >
           <FaRegComment />
           Comment
-        </span>
+        </Link>
         <span className="flex items-center gap-2 cursor-pointer">
           <BsCollection />
           Save

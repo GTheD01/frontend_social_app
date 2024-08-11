@@ -53,8 +53,14 @@ export interface UserProps {
 }
 
 export interface PostProps {
+  attachments?: AttachmentProps[];
   id: string;
   body: string;
   created_by: UserProps;
   created_at_formatted: string;
+}
+
+export interface AttachmentProps {
+  id: string;
+  get_image: string;
 }
