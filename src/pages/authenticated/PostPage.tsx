@@ -16,6 +16,8 @@ const PostPage = () => {
           <Spinner lg />
         ) : (
           <Post
+            user_liked={data?.user_liked}
+            likes_count={data?.likes_count}
             image={data?.created_by.get_avatar}
             username={data?.created_by.username}
             body={data?.body}

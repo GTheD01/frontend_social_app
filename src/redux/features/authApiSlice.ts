@@ -87,6 +87,13 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Post"],
     }),
+    likePost: builder.mutation({
+      query: (id) => ({
+        url: `posts/like/${id}/`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Post"],
+    }),
     retrieveUsers: builder.query<UserProps[], void>({
       query: () => "/users/",
     }),
@@ -109,6 +116,7 @@ export const {
 
   useRegisterMutation,
   useDeletePostMutation,
+  useLikePostMutation,
   useVerifyMutation,
   useLoginMutation,
   useActivateUserMutation,

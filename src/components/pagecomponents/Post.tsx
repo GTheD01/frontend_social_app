@@ -1,7 +1,10 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useDeletePostMutation } from "../../redux/features/authApiSlice";
+import {
+  useDeletePostMutation,
+  useLikePostMutation,
+} from "../../redux/features/authApiSlice";
 import { toggleActionModal } from "../../redux/features/postSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import PostModal from "./PostModal";
@@ -22,6 +25,8 @@ interface PostProps {
   created_at: string;
   body: string;
   postId: string;
+  likes_count: string;
+  user_liked: boolean;
 }
 
 const Post = ({
@@ -32,6 +37,8 @@ const Post = ({
   body,
   attachments,
   postId,
+  likes_count,
+  user_liked,
 }: PostProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -39,6 +46,7 @@ const Post = ({
   const { actionModal } = useAppSelector((state) => state.post);
 
   const [deletePost] = useDeletePostMutation();
+  const [likePost] = useLikePostMutation();
 
   const toggleModal = useCallback(
     (id: string) => {
@@ -53,6 +61,17 @@ const Post = ({
       .then((response) => {
         toast.success(response.message);
         navigate("/home");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const postLikeHandler = () => {
+    likePost(postId)
+      .unwrap()
+      .then((response) => {
+        toast.success(response.message);
       })
       .catch((err) => {
         console.log(err);
@@ -130,8 +149,12 @@ const Post = ({
           />
         ))}
       <div className="flex gap-4 mt-4">
-        <span className="flex items-center gap-2 cursor-pointer">
-          <GrLike />
+        <span
+          onClick={postLikeHandler}
+          className="flex items-center gap-2 cursor-pointer"
+        >
+          <GrLike className={`${user_liked ? "stroke-blue-500" : ""}`} />
+          <span className="font-semibold">{likes_count}</span>
           Like
         </span>
         <Link

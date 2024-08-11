@@ -21,6 +21,8 @@ const HomePage = () => {
           ) : (
             data?.map((post) => (
               <Post
+                user_liked={post.user_liked}
+                likes_count={post.likes_count}
                 attachments={post.attachments}
                 image={post.created_by.get_avatar}
                 username={post.created_by.username}

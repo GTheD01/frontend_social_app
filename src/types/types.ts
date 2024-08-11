@@ -58,6 +58,8 @@ export interface PostProps {
   body: string;
   created_by: UserProps;
   created_at_formatted: string;
+  likes_count: string;
+  user_liked: boolean;
 }
 
 export interface AttachmentProps {
