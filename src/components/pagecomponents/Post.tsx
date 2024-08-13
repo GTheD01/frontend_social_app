@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import {
@@ -143,6 +143,7 @@ const Post = ({
       {attachments &&
         attachments.map((attachment) => (
           <img
+            alt="user post img"
             src={attachment.get_image}
             key={attachment.id}
             className="w-full cursor-pointer"

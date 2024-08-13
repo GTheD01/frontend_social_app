@@ -79,6 +79,7 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
     retrievePostDetails: builder.query({
       query: (id) => `posts/${id}/`,
+      providesTags: ["Post"],
     }),
     deletePost: builder.mutation({
       query: (id) => ({
