@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   useDeletePostMutation,
   useLikePostMutation,
+  useSavePostMutation,
 } from "../../redux/features/authApiSlice";
 import { toggleActionModal } from "../../redux/features/postSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -27,6 +28,7 @@ interface PostProps {
   postId: string;
   likes_count: string;
   user_liked: boolean;
+  post_saved: boolean;
 }
 
 const Post = ({
@@ -39,6 +41,7 @@ const Post = ({
   postId,
   likes_count,
   user_liked,
+  post_saved,
 }: PostProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -47,6 +50,7 @@ const Post = ({
 
   const [deletePost] = useDeletePostMutation();
   const [likePost] = useLikePostMutation();
+  const [savePost] = useSavePostMutation();
 
   const toggleModal = useCallback(
     (id: string) => {
@@ -75,6 +79,17 @@ const Post = ({
       })
       .catch((err) => {
         console.log(err);
+      });
+  };
+
+  const savePostHandler = () => {
+    savePost(postId)
+      .unwrap()
+      .then((response) => {
+        toast.success(response.message);
+      })
+      .catch((err) => {
+        toast.error(err);
       });
   };
 
@@ -165,8 +180,11 @@ const Post = ({
           <FaRegComment />
           Comment
         </Link>
-        <span className="flex items-center gap-2 cursor-pointer">
-          <BsCollection />
+        <span
+          onClick={savePostHandler}
+          className="flex items-center gap-2 cursor-pointer"
+        >
+          <BsCollection className={`${post_saved ? "fill-blue-500" : ""}`} />
           Save
         </span>
       </div>

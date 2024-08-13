@@ -16,6 +16,7 @@ const PostPage = () => {
           <Spinner lg />
         ) : (
           <Post
+            post_saved={data?.post_saved}
             attachments={data?.attachments}
             user_liked={data?.user_liked}
             likes_count={data?.likes_count}

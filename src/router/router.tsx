@@ -13,6 +13,7 @@ import ProfilePage from "../pages/authenticated/ProfilePage";
 import UserSettingsPage from "../pages/authenticated/UserSettingsPage";
 import PostPage from "../pages/authenticated/PostPage";
 import UsersSearchPage from "../pages/authenticated/UsersSearchPage";
+import SavedPosts from "../pages/authenticated/SavedPosts";
 
 // import LayoutAuthPage from "../pages/authenticated/LayoutAuthPage";
 // import HomePage from "../pages/authenticated/HomePage";
@@ -93,6 +94,12 @@ const router = createBrowserRouter([
           {
             path: "/profile/:username",
             element: <ProfilePage />,
+            children: [
+              {
+                path: "saved",
+                element: <SavedPosts />,
+              },
+            ],
           },
           {
             path: "/post/:postId",

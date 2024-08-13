@@ -95,6 +95,17 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Post"],
     }),
+    savePost: builder.mutation({
+      query: (id) => ({
+        url: `posts/save/${id}/`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Post"],
+    }),
+    retrieveSavedPosts: builder.query<PostProps[], void>({
+      query: () => "posts/saved",
+      providesTags: ["Post"],
+    }),
     retrieveUsers: builder.query<UserProps[], void>({
       query: () => "/users/",
     }),
@@ -106,6 +117,12 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    retrieveUserDetails: builder.query({
+      query: (username) => ({
+        url: `profile/details/${username}`,
+      }),
+      providesTags: ["User"],
+    }),
   }),
 });
 
@@ -114,10 +131,13 @@ export const {
   useRetrievePostsQuery,
   useRetrievePostDetailsQuery,
   useRetrieveUsersQuery,
+  useRetrieveSavedPostsQuery,
+  useRetrieveUserDetailsQuery,
 
   useRegisterMutation,
   useDeletePostMutation,
   useLikePostMutation,
+  useSavePostMutation,
   useVerifyMutation,
   useLoginMutation,
   useActivateUserMutation,

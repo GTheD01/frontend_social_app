@@ -1,13 +1,18 @@
 import logo from "../../assets/result.png";
 import { IoIosSettings } from "react-icons/io";
-import { useRetrieveUserQuery } from "../../redux/features/authApiSlice";
+import {
+  useRetrievePostsQuery,
+  useRetrieveUserDetailsQuery,
+} from "../../redux/features/authApiSlice";
 import Spinner from "../../components/common/Spinner";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import Post from "../../components/pagecomponents/Post";
 
 const ProfilePage = () => {
-  const { data, isLoading } = useRetrieveUserQuery();
-
-  console.log(data);
+  const { username } = useParams();
+  const { data, isLoading } = useRetrieveUserDetailsQuery(username);
+  const { data: posts, isLoading: isLoadingPosts } = useRetrievePostsQuery();
+  const { pathname } = useLocation();
 
   return (
     <div className="mx-52 px-5 pt-7">
@@ -67,26 +72,52 @@ const ProfilePage = () => {
             <section className="row-start-5 col-start-1 col-end-3  "></section>
           </header>
           <div className="flex items-center justify-center mt-8 gap-8 border-t-2 border-gray-300">
-            <span
-              aria-selected="true"
-              className=" aria-selected:border-white aria-selected:mt-[-1.8px] aria-selected:border-t-2 cursor-pointer"
+            <Link
+              to="."
+              aria-selected={pathname.endsWith("popeftimov")}
+              className={`${
+                pathname.endsWith("popeftimov")
+                  ? "aria-selected:border-white aria-selected:mt-[-1.8px] aria-selected:border-t-2"
+                  : ""
+              } cursor-pointer transition ease-in duration-500`}
             >
               POSTS
-            </span>
-            <span
-              aria-selected="false"
-              className=" aria-selected:border-white aria-selected:mt-[-1.8px] aria-selected:border-t-2 cursor-pointer"
+            </Link>
+            <Link
+              to="saved"
+              aria-selected={pathname.endsWith("saved")}
+              className={`${
+                pathname.endsWith("saved")
+                  ? "aria-selected:border-white aria-selected:mt-[-1.8px] aria-selected:border-t-2"
+                  : ""
+              } cursor-pointer transition ease-in duration-500`}
             >
               SAVED
-            </span>
+            </Link>
             <span
-              aria-selected="false"
-              className=" aria-selected:border-white aria-selected:mt-[-1.8px] aria-selected:border-t-2 cursor-pointer"
+              aria-selected={pathname.endsWith("tagged")}
+              className=" aria-selected:border-white aria-selected:mt-[-1.8px] aria-selected:border-t-2 cursor-pointer transition ease-in"
             >
               TAGGED
             </span>
           </div>
           <div className="flex flex-col gap-12 mt-12">
+            <Outlet />
+
+            {posts &&
+              posts.map((post) => (
+                <Post
+                  key={post.id}
+                  postId={post.id}
+                  username={post.created_by.username}
+                  created_at={post.created_at_formatted}
+                  body={post.body}
+                  likes_count={post.likes_count}
+                  post_saved={post.post_saved}
+                  image={post.created_by.get_avatar}
+                  user_liked={post.user_liked}
+                />
+              ))}
             {/* <Post
               username="popeftimov"
               subtitle="Suggested for you"
