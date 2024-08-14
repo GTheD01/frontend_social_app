@@ -14,6 +14,7 @@ import UserSettingsPage from "../pages/authenticated/UserSettingsPage";
 import PostPage from "../pages/authenticated/PostPage";
 import UsersSearchPage from "../pages/authenticated/UsersSearchPage";
 import SavedPosts from "../pages/authenticated/SavedPosts";
+import UserPosts from "../pages/authenticated/UserPosts";
 
 // import LayoutAuthPage from "../pages/authenticated/LayoutAuthPage";
 // import HomePage from "../pages/authenticated/HomePage";
@@ -96,8 +97,16 @@ const router = createBrowserRouter([
             element: <ProfilePage />,
             children: [
               {
+                index: true,
+                element: <UserPosts />,
+              },
+              {
                 path: "saved",
                 element: <SavedPosts />,
+              },
+              {
+                path: "tagged",
+                element: <div>Tagged</div>,
               },
             ],
           },

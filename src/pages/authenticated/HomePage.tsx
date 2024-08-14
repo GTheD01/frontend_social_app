@@ -21,6 +21,7 @@ const HomePage = () => {
           ) : (
             data?.map((post) => (
               <Post
+                post_owner={post.post_owner}
                 post_saved={post.post_saved}
                 user_liked={post.user_liked}
                 likes_count={post.likes_count}

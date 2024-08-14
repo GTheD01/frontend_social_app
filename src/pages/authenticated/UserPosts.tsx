@@ -1,30 +1,33 @@
 import { useParams } from "react-router-dom";
 import Spinner from "../../components/common/Spinner";
 import Post from "../../components/pagecomponents/Post";
-import { useRetrieveSavedPostsQuery } from "../../redux/features/authApiSlice";
 
-const SavedPosts = () => {
+import { useRetrieveProfilePostsQuery } from "../../redux/features/authApiSlice";
+
+const UserPosts = () => {
   const { username } = useParams();
-  const { data, isLoading } = useRetrieveSavedPostsQuery(username);
+
+  const { data: posts, isLoading: isLoadingPosts } =
+    useRetrieveProfilePostsQuery(username);
 
   return (
     <div className="flex flex-col gap-8">
-      {isLoading ? (
+      {isLoadingPosts ? (
         <Spinner lg />
       ) : (
-        data?.map((post) => (
+        posts &&
+        posts?.map((post) => (
           <Post
             post_owner={post.post_owner}
-            postId={post.id}
             key={post.id}
-            body={post.body}
-            created_at={post.created_at_formatted}
+            postId={post.id}
             username={post.created_by.username}
-            image={post.created_by.get_avatar}
-            attachments={post.attachments}
+            created_at={post.created_at_formatted}
+            body={post.body}
             likes_count={post.likes_count}
-            user_liked={post.user_liked}
             post_saved={post.post_saved}
+            image={post.created_by.get_avatar}
+            user_liked={post.user_liked}
           />
         ))
       )}
@@ -32,4 +35,4 @@ const SavedPosts = () => {
   );
 };
 
-export default SavedPosts;
+export default UserPosts;

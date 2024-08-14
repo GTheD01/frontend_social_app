@@ -16,6 +16,7 @@ const PostPage = () => {
           <Spinner lg />
         ) : (
           <Post
+            post_owner={data?.post_owner}
             post_saved={data?.post_saved}
             attachments={data?.attachments}
             user_liked={data?.user_liked}

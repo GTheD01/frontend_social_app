@@ -18,7 +18,7 @@ import { BsCollection } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
 import { AttachmentProps } from "../../types/types";
 
-interface PostProps {
+interface ComponentPostProps {
   image?: string;
   username: string;
   subtitle?: string;
@@ -29,6 +29,7 @@ interface PostProps {
   likes_count: string;
   user_liked: boolean;
   post_saved: boolean;
+  post_owner: boolean;
 }
 
 const Post = ({
@@ -42,7 +43,8 @@ const Post = ({
   likes_count,
   user_liked,
   post_saved,
-}: PostProps) => {
+  post_owner,
+}: ComponentPostProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -149,7 +151,11 @@ const Post = ({
         >
           <HiDotsVertical className="text-gray-500 text-xl pointer-events-none" />
 
-          <PostModal postId={postId} postDeleteHandler={postDeleteHandler} />
+          <PostModal
+            postId={postId}
+            postDeleteHandler={postDeleteHandler}
+            post_owner={post_owner}
+          />
         </button>
       </div>
       <div className="py-4">

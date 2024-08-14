@@ -61,7 +61,22 @@ export interface PostProps {
   likes_count: string;
   user_liked: boolean;
   post_saved: boolean;
+  post_owner: boolean;
 }
+
+// interface PostProps {
+//   image?: string;
+//   username: string;
+//   subtitle?: string;
+//   attachments?: AttachmentProps[];
+//   created_at: string;
+//   body: string;
+//   postId: string;
+//   likes_count: string;
+//   user_liked: boolean;
+//   post_saved: boolean;
+//   post_owner: boolean;
+// }
 
 export interface AttachmentProps {
   id: string;

@@ -1,18 +1,13 @@
 import logo from "../../assets/result.png";
 import { IoIosSettings } from "react-icons/io";
-import {
-  useRetrieveProfilePostsQuery,
-  useRetrieveUserDetailsQuery,
-} from "../../redux/features/authApiSlice";
+import { useRetrieveUserDetailsQuery } from "../../redux/features/authApiSlice";
 import Spinner from "../../components/common/Spinner";
 import { Link, Outlet, useLocation, useParams } from "react-router-dom";
-import Post from "../../components/pagecomponents/Post";
 
 const ProfilePage = () => {
   const { username } = useParams();
   const { data, isLoading } = useRetrieveUserDetailsQuery(username);
-  const { data: posts, isLoading: isLoadingPosts } =
-    useRetrieveProfilePostsQuery(username);
+
   const { pathname } = useLocation();
 
   return (
@@ -95,41 +90,16 @@ const ProfilePage = () => {
             >
               SAVED
             </Link>
-            <span
+            <Link
+              to="tagged"
               aria-selected={pathname.endsWith("tagged")}
               className=" aria-selected:border-white aria-selected:mt-[-1.8px] aria-selected:border-t-2 cursor-pointer transition ease-in"
             >
               TAGGED
-            </span>
+            </Link>
           </div>
           <div className="flex flex-col gap-12 mt-12">
             <Outlet />
-
-            {isLoadingPosts ? (
-              <Spinner lg />
-            ) : (
-              posts &&
-              pathname.endsWith(username!) &&
-              posts?.map((post) => (
-                <Post
-                  key={post.id}
-                  postId={post.id}
-                  username={post.created_by.username}
-                  created_at={post.created_at_formatted}
-                  body={post.body}
-                  likes_count={post.likes_count}
-                  post_saved={post.post_saved}
-                  image={post.created_by.get_avatar}
-                  user_liked={post.user_liked}
-                />
-              ))
-            )}
-            {/* <Post
-              username="popeftimov"
-              subtitle="Suggested for you"
-              created_at="15 hours"
-              body="No photo post"
-            /> */}
           </div>
         </>
       )}
