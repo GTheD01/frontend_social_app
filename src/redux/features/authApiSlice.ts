@@ -77,6 +77,10 @@ const authApiSlice = apiSlice.injectEndpoints({
       query: () => "/posts/",
       providesTags: ["Post"],
     }),
+    retrieveProfilePosts: builder.query<PostProps[], string | undefined>({
+      query: (username) => `/posts/profile/${username}`,
+      providesTags: ["Post"],
+    }),
     retrievePostDetails: builder.query({
       query: (id) => `posts/${id}/`,
       providesTags: ["Post"],
@@ -102,8 +106,8 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Post"],
     }),
-    retrieveSavedPosts: builder.query<PostProps[], void>({
-      query: () => "posts/saved",
+    retrieveSavedPosts: builder.query<PostProps[], string | undefined>({
+      query: (username) => `posts/saved/${username}`,
       providesTags: ["Post"],
     }),
     retrieveUsers: builder.query<UserProps[], void>({
@@ -129,6 +133,7 @@ const authApiSlice = apiSlice.injectEndpoints({
 export const {
   useRetrieveUserQuery,
   useRetrievePostsQuery,
+  useRetrieveProfilePostsQuery,
   useRetrievePostDetailsQuery,
   useRetrieveUsersQuery,
   useRetrieveSavedPostsQuery,

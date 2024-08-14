@@ -1,7 +1,7 @@
 import logo from "../../assets/result.png";
 import { IoIosSettings } from "react-icons/io";
 import {
-  useRetrievePostsQuery,
+  useRetrieveProfilePostsQuery,
   useRetrieveUserDetailsQuery,
 } from "../../redux/features/authApiSlice";
 import Spinner from "../../components/common/Spinner";
@@ -11,7 +11,8 @@ import Post from "../../components/pagecomponents/Post";
 const ProfilePage = () => {
   const { username } = useParams();
   const { data, isLoading } = useRetrieveUserDetailsQuery(username);
-  const { data: posts, isLoading: isLoadingPosts } = useRetrievePostsQuery();
+  const { data: posts, isLoading: isLoadingPosts } =
+    useRetrieveProfilePostsQuery(username);
   const { pathname } = useLocation();
 
   return (
@@ -74,7 +75,7 @@ const ProfilePage = () => {
           <div className="flex items-center justify-center mt-8 gap-8 border-t-2 border-gray-300">
             <Link
               to="."
-              aria-selected={pathname.endsWith("popeftimov")}
+              aria-selected={pathname.endsWith(username!)}
               className={`${
                 pathname.endsWith("popeftimov")
                   ? "aria-selected:border-white aria-selected:mt-[-1.8px] aria-selected:border-t-2"
@@ -104,8 +105,12 @@ const ProfilePage = () => {
           <div className="flex flex-col gap-12 mt-12">
             <Outlet />
 
-            {posts &&
-              posts.map((post) => (
+            {isLoadingPosts ? (
+              <Spinner lg />
+            ) : (
+              posts &&
+              pathname.endsWith(username!) &&
+              posts?.map((post) => (
                 <Post
                   key={post.id}
                   postId={post.id}
@@ -117,7 +122,8 @@ const ProfilePage = () => {
                   image={post.created_by.get_avatar}
                   user_liked={post.user_liked}
                 />
-              ))}
+              ))
+            )}
             {/* <Post
               username="popeftimov"
               subtitle="Suggested for you"
