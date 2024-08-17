@@ -1,11 +1,8 @@
 import { Link, NavLink } from "react-router-dom";
 import { logout as setLogout } from "../../redux/features/authSlice";
-import {
-  useLogoutMutation,
-  useRetrieveUserQuery,
-} from "../../redux/features/authApiSlice";
+import { useLogoutMutation } from "../../redux/features/authApiSlice";
 
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import Spinner from "../common/Spinner";
 
 import { IoSearchSharp } from "react-icons/io5";
@@ -13,7 +10,9 @@ import { IoSearchSharp } from "react-icons/io5";
 const NavBar = () => {
   const dispatch = useAppDispatch();
   const [logout] = useLogoutMutation();
-  const { data, isLoading } = useRetrieveUserQuery();
+
+  const user = useAppSelector((state) => state.user);
+  const { isLoading } = user;
 
   const links = [
     {
@@ -61,17 +60,17 @@ const NavBar = () => {
         ) : (
           <div className="p-4">
             <img
-              src={data?.get_avatar}
+              src={user?.get_avatar}
               alt=""
               className="w-12 h-12 rounded-full border object-contain"
             />
             <Link
-              to={`/profile/${data?.username}`}
+              to={`/profile/${user?.username}`}
               className="font-semibold mt-4 text-xl"
             >
-              {data?.full_name}
+              {user?.full_name}
             </Link>
-            <p className="font-light text-gray-400 text-sm">{data?.username}</p>
+            <p className="font-light text-gray-400 text-sm">{user?.username}</p>
           </div>
         )}
         <nav className="">

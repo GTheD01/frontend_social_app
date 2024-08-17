@@ -3,10 +3,12 @@ import { IoIosSettings } from "react-icons/io";
 import { useRetrieveUserDetailsQuery } from "../../redux/features/authApiSlice";
 import Spinner from "../../components/common/Spinner";
 import { Link, Outlet, useLocation, useParams } from "react-router-dom";
+import { useAppSelector } from "../../redux/hooks";
 
 const ProfilePage = () => {
   const { username } = useParams();
   const { data, isLoading } = useRetrieveUserDetailsQuery(username);
+  const loggedUser = useAppSelector((state) => state.user);
 
   const { pathname } = useLocation();
 
@@ -27,11 +29,15 @@ const ProfilePage = () => {
             <section className="col-span-2 col-start-2 row-start-1  ">
               <div className="flex items-center gap-4">
                 <span className="font-semibold">{data?.username}</span>
-                <button>Edit Profile</button>
-                <button>View archive</button>
-                <span>
-                  <IoIosSettings />
-                </span>
+                {data?.username === loggedUser?.username && (
+                  <>
+                    <Link to="/settings">Edit Profile</Link>
+                    <button>View archive</button>
+                    <span>
+                      <IoIosSettings />
+                    </span>
+                  </>
+                )}
               </div>
             </section>
             <section className="col-start-2 col-end-3 row-start-2 flex gap-4">
@@ -70,9 +76,9 @@ const ProfilePage = () => {
           <div className="flex items-center justify-center mt-8 gap-8 border-t-2 border-gray-300">
             <Link
               to="."
-              aria-selected={pathname.endsWith(username!)}
+              aria-selected={pathname.endsWith(username as string)}
               className={`${
-                pathname.endsWith("popeftimov")
+                pathname.endsWith(username as string)
                   ? "aria-selected:border-white aria-selected:mt-[-1.8px] aria-selected:border-t-2"
                   : ""
               } cursor-pointer transition ease-in duration-500`}

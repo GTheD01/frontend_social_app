@@ -1,16 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import {
-  useRetrieveUserQuery,
-  useEditProfileMutation,
-} from "../redux/features/authApiSlice";
+import { useEditProfileMutation } from "../redux/features/authApiSlice";
 
 import { toast } from "react-toastify";
+import { useAppSelector } from "../redux/hooks";
 
 const useEditUserSettings = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const { data } = useRetrieveUserQuery();
+  const user = useAppSelector((state) => state.user);
 
   const [editProfile, { isLoading }] = useEditProfileMutation();
 
@@ -22,15 +19,15 @@ const useEditUserSettings = () => {
   });
 
   useEffect(() => {
-    if (data) {
+    if (user) {
       setFormData({
-        full_name: data.full_name || "",
-        username: data.username || "",
-        email: data.email || "",
-        avatar: data.get_avatar || "",
+        full_name: user.full_name || "",
+        username: user.username || "",
+        email: user.email || "",
+        avatar: user.get_avatar || "",
       });
     }
-  }, [data]);
+  }, [user]);
 
   const { email, full_name, username } = formData;
 
