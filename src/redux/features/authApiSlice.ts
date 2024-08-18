@@ -113,6 +113,9 @@ const authApiSlice = apiSlice.injectEndpoints({
     retrieveUsers: builder.query<UserProps[], void>({
       query: () => "/users/",
     }),
+    retrieveSearchedUsers: builder.query<UserProps[], string>({
+      query: (search) => `/users/search?search=${search}`,
+    }),
     editProfile: builder.mutation({
       query: (formData) => ({
         url: "profile/edit/",
@@ -138,6 +141,7 @@ export const {
   useRetrieveUsersQuery,
   useRetrieveSavedPostsQuery,
   useRetrieveUserDetailsQuery,
+  useRetrieveSearchedUsersQuery,
 
   useRegisterMutation,
   useDeletePostMutation,

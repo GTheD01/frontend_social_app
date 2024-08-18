@@ -1,5 +1,3 @@
-import logo from "../../assets/result.png";
-import { IoIosSettings } from "react-icons/io";
 import { useRetrieveUserDetailsQuery } from "../../redux/features/authApiSlice";
 import Spinner from "../../components/common/Spinner";
 import { Link, Outlet, useLocation, useParams } from "react-router-dom";
@@ -33,9 +31,6 @@ const ProfilePage = () => {
                   <>
                     <Link to="/settings">Edit Profile</Link>
                     <button>View archive</button>
-                    <span>
-                      <IoIosSettings />
-                    </span>
                   </>
                 )}
               </div>
@@ -59,15 +54,27 @@ const ProfilePage = () => {
             <section className="col-start-2 col-end-3 row-start-4  "></section>
             <section className="flex gap-12 col-start-1 col-end-3 row-start-6  ">
               <div>
-                <img src={logo} className="w-20 h-20" alt="highlight img" />
+                <img
+                  src={data?.get_avatar}
+                  className="w-20 h-20 rounded-full"
+                  alt="highlight img"
+                />
                 <p className="text-center">Highlights</p>
               </div>
               <div>
-                <img src={logo} className="w-20 h-20" alt="highlight img" />
+                <img
+                  src={data?.get_avatar}
+                  className="w-20 h-20 rounded-full"
+                  alt="highlight img"
+                />
                 <p className="text-center">Highlights</p>
               </div>
               <div>
-                <img src={logo} className="w-20 h-20" alt="highlight img" />
+                <img
+                  src={data?.get_avatar}
+                  className="w-20 h-20 rounded-full"
+                  alt="highlight img"
+                />
                 <p className="text-center">New</p>
               </div>
             </section>
