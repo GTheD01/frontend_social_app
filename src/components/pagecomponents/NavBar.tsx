@@ -22,6 +22,7 @@ const NavBar = () => {
     useRetrieveSearchedUsersQuery(debounceValue);
 
   const user = useAppSelector((state) => state.user);
+
   const { isLoading } = user;
 
   const links = [
@@ -118,6 +119,7 @@ const NavBar = () => {
             <p className="font-light text-gray-400 text-sm">{user?.username}</p>
           </div>
         )}
+
         <nav className="">
           <ul className="flex flex-col">
             {links.map((link) => (
