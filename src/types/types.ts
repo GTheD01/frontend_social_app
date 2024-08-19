@@ -50,6 +50,7 @@ export interface UserProps {
   posts_count?: string;
   followers_count: string;
   following_count: string;
+  user_follows: boolean;
 }
 
 export interface PostProps {

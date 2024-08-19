@@ -7,12 +7,13 @@ import { setIsLoading, setUser } from "../redux/features/userSlice";
 export default function useSetUser() {
   const dispatch = useAppDispatch();
 
-  const { data, isSuccess, isLoading } = useRetrieveUserQuery();
+  const { data, isSuccess } = useRetrieveUserQuery();
 
   useEffect(() => {
     if (isSuccess) {
+      dispatch(setIsLoading(true));
       dispatch(setUser(data as UserProps));
-      dispatch(setIsLoading(isLoading));
+      dispatch(setIsLoading(false));
     }
-  }, [data, isSuccess, dispatch, isLoading]);
+  }, [data, isSuccess, dispatch]);
 }

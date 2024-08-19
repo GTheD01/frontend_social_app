@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { logout as setLogout } from "../../redux/features/authSlice";
 import {
   useLogoutMutation,
@@ -9,11 +9,17 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import Spinner from "../common/Spinner";
 
 import { IoSearchSharp } from "react-icons/io5";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import useDebounce from "../../hooks/useDebounce";
+import useSetUser from "../../hooks/useSetUser";
+import SearchUserDetails from "./SearchUserDetails";
+import useFollowUser from "../../hooks/useFollowUser";
 
 const NavBar = () => {
+  useSetUser();
+
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const [logout] = useLogoutMutation();
   const [search, setSearch] = useState("");
   const debounceValue = useDebounce({ value: search, delay: 300 });
@@ -22,8 +28,9 @@ const NavBar = () => {
     useRetrieveSearchedUsersQuery(debounceValue);
 
   const user = useAppSelector((state) => state.user);
-
   const { isLoading } = user;
+
+  const followUser = useFollowUser();
 
   const links = [
     {
@@ -58,6 +65,10 @@ const NavBar = () => {
     setSearch(e.target.value);
   };
 
+  useEffect(() => {
+    setSearch("");
+  }, [location]);
+
   return (
     <div className="h-full">
       <div className="bg-white fixed top-0 left-0 flex flex-col gap-4 h-full p-4">
@@ -77,21 +88,15 @@ const NavBar = () => {
         ) : (
           <div className="flex flex-col space-y-3 items-start justify-start">
             {data?.slice(0, 1).map((user) => (
-              <div
+              <SearchUserDetails
+                user_follows={user.user_follows}
+                onClick={() => followUser(user.username)}
+                size="s"
                 key={user.id}
-                className="flex items-center gap-4 border border-gray-300 p-4"
-              >
-                <img
-                  src={user.get_avatar}
-                  alt="user img"
-                  className="w-14 h-14 border border-gray-300 rounded-full"
-                />
-                <div>
-                  <p className="font-semibold">@{user.username}</p>
-                  <p className="text-xs">{user.full_name}</p>
-                </div>
-                <button className="bg-sky-400 px-4 py-2">Follow</button>
-              </div>
+                username={user.username}
+                full_name={user.full_name}
+                image={user.get_avatar}
+              />
             ))}
             {(data?.length as number) > 1 ? (
               <Link to={`/users?search=${debounceValue}`}>Show more </Link>
@@ -141,6 +146,7 @@ const NavBar = () => {
           </ul>
         </nav>
         <button
+          aria-label="logout"
           type="submit"
           onClick={handleLogout}
           className="text-xl text-gray-400 hover:bg-gray-300 mt-auto p-4 text-left"

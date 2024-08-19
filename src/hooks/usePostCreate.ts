@@ -1,11 +1,8 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useCreatePostMutation } from "../redux/features/authApiSlice";
 import { toast } from "react-toastify";
-import { PostSchema } from "../schemas";
 
-import { z } from "zod";
 import { ErrorObject } from "../types/zodTypes";
-import { toErrorObject } from "../lib/utils";
 
 const usePostCreate = () => {
   const [createPost, { isLoading }] = useCreatePostMutation();

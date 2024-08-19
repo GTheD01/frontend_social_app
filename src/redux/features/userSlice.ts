@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserProps } from "../../types/types";
 
-const initialState = {
+const initialState: UserProps & { isLoading?: boolean } = {
   email: "",
   followers_count: "",
   following_count: "",
@@ -10,7 +10,8 @@ const initialState = {
   username: "",
   get_avatar: "",
   posts_count: "",
-} as UserProps & { isLoading: boolean };
+  user_follows: false,
+};
 
 const userSlice = createSlice({
   name: "user",
@@ -25,6 +26,7 @@ const userSlice = createSlice({
       state.id = payload.id;
       state.posts_count = payload.posts_count;
       state.full_name = payload.full_name;
+      state.user_follows = payload.user_follows;
     },
     setIsLoading: (state, { payload }) => {
       state.isLoading = payload;

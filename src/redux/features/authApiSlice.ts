@@ -75,7 +75,7 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
     retrievePosts: builder.query<PostProps[], void>({
       query: () => "/posts/",
-      providesTags: ["Post"],
+      providesTags: ["Post", "User"],
     }),
     retrieveProfilePosts: builder.query<PostProps[], string | undefined>({
       query: (username) => `/posts/profile/${username}`,
@@ -112,9 +112,11 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
     retrieveUsers: builder.query<UserProps[], void>({
       query: () => "/users/",
+      providesTags: ["User"],
     }),
     retrieveSearchedUsers: builder.query<UserProps[], string>({
       query: (search) => `/users/search?search=${search}`,
+      providesTags: ["User"],
     }),
     editProfile: builder.mutation({
       query: (formData) => ({
@@ -130,6 +132,13 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["User"],
     }),
+    followUser: builder.mutation({
+      query: (username) => ({
+        url: `user/follow/${username}/`,
+        method: "POST",
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
@@ -143,6 +152,7 @@ export const {
   useRetrieveUserDetailsQuery,
   useRetrieveSearchedUsersQuery,
 
+  useFollowUserMutation,
   useRegisterMutation,
   useDeletePostMutation,
   useLikePostMutation,

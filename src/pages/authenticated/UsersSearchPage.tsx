@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
 import { useRetrieveSearchedUsersQuery } from "../../redux/features/authApiSlice";
-import { UserProps } from "../../types/types";
 import { useSearchParams } from "react-router-dom";
 import Spinner from "../../components/common/Spinner";
+import SearchUserDetails from "../../components/pagecomponents/SearchUserDetails";
+import useFollowUser from "../../hooks/useFollowUser";
 
 const UsersSearchPage = () => {
   const [searchParams] = useSearchParams();
@@ -11,32 +11,21 @@ const UsersSearchPage = () => {
   const { data, isLoading: usersLoading } = useRetrieveSearchedUsersQuery(
     search as string
   );
-  const [users, setUsers] = useState<UserProps[]>();
-  useEffect(() => {
-    if (data) {
-      setUsers(data);
-    }
-  }, [data]);
+
+  const followUser = useFollowUser();
 
   return (
     <div className="flex flex-col space-y-3 items-start justify-start">
       {usersLoading && <Spinner lg />}
-      {users?.map((user) => (
-        <div
+      {data?.map((user) => (
+        <SearchUserDetails
+          user_follows={user.user_follows}
+          onClick={() => followUser(user.username)}
           key={user.id}
-          className="flex items-center gap-4 border border-gray-300 p-4"
-        >
-          <img
-            src={user.get_avatar}
-            alt="user img"
-            className="w-14 h-14 border border-gray-300 rounded-full"
-          />
-          <div>
-            <p className="font-semibold">@{user.username}</p>
-            <p className="text-xs">{user.full_name}</p>
-          </div>
-          <button className="bg-sky-400 px-4 py-2">Follow</button>
-        </div>
+          image={user.get_avatar}
+          full_name={user.full_name}
+          username={user.username}
+        />
       ))}
     </div>
   );

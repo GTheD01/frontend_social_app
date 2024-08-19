@@ -8,12 +8,8 @@ import { useRetrievePostsQuery } from "../../redux/features/authApiSlice";
 
 import logo from "../../assets/result.png";
 
-import useSetUser from "../../hooks/useSetUser";
-
 const HomePage = () => {
   const { data, isLoading } = useRetrievePostsQuery();
-
-  useSetUser();
 
   return (
     <div className="flex justify-center gap-4 w-full h-full">

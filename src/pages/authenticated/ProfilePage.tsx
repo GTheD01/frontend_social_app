@@ -2,13 +2,18 @@ import { useRetrieveUserDetailsQuery } from "../../redux/features/authApiSlice";
 import Spinner from "../../components/common/Spinner";
 import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
+import useFollowUser from "../../hooks/useFollowUser";
 
 const ProfilePage = () => {
   const { username } = useParams();
   const { data, isLoading } = useRetrieveUserDetailsQuery(username);
   const loggedUser = useAppSelector((state) => state.user);
 
+  const isLoggedUser = data?.username === loggedUser?.username;
+
   const { pathname } = useLocation();
+
+  const followUser = useFollowUser();
 
   return (
     <div className="mx-52 px-5 pt-7">
@@ -27,7 +32,7 @@ const ProfilePage = () => {
             <section className="col-span-2 col-start-2 row-start-1  ">
               <div className="flex items-center gap-4">
                 <span className="font-semibold">{data?.username}</span>
-                {data?.username === loggedUser?.username && (
+                {isLoggedUser && (
                   <>
                     <Link to="/settings">Edit Profile</Link>
                     <button>View archive</button>
@@ -51,34 +56,18 @@ const ProfilePage = () => {
             <section className="col-start-2 col-end-3 row-start-3  ">
               <p className="font-bold">{data?.full_name}</p>
             </section>
-            <section className="col-start-2 col-end-3 row-start-4  "></section>
-            <section className="flex gap-12 col-start-1 col-end-3 row-start-6  ">
-              <div>
-                <img
-                  src={data?.get_avatar}
-                  className="w-20 h-20 rounded-full"
-                  alt="highlight img"
-                />
-                <p className="text-center">Highlights</p>
-              </div>
-              <div>
-                <img
-                  src={data?.get_avatar}
-                  className="w-20 h-20 rounded-full"
-                  alt="highlight img"
-                />
-                <p className="text-center">Highlights</p>
-              </div>
-              <div>
-                <img
-                  src={data?.get_avatar}
-                  className="w-20 h-20 rounded-full"
-                  alt="highlight img"
-                />
-                <p className="text-center">New</p>
-              </div>
+            <section className="col-start-2 col-end-3 row-start-4">
+              {!isLoggedUser && (
+                <button
+                  onClick={() => followUser(data?.username)}
+                  className="bg-sky-400 px-4 py-2 hover:bg-sky-300"
+                >
+                  {data?.user_follows ? "Unfollow" : "Follow"}
+                </button>
+              )}
             </section>
-            <section className="row-start-5 col-start-1 col-end-3  "></section>
+
+            <section className="row-start-5 col-start-1 col-end-3"></section>
           </header>
           <div className="flex items-center justify-center mt-8 gap-8 border-t-2 border-gray-300">
             <Link

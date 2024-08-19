@@ -31,7 +31,7 @@ const PostForm = () => {
       />
       <p className="text-red-500">{error?.body}</p>
       {selectedFile && (
-        <img src={fileUrl} className="w-48 h-48 object-contain" />
+        <img src={fileUrl} className="w-48 h-48 object-contain" alt="file" />
       )}
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
