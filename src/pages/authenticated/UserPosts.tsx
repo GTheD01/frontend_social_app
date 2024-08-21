@@ -18,6 +18,7 @@ const UserPosts = () => {
         posts &&
         posts?.map((post) => (
           <Post
+            attachments={post.attachments}
             comments_count={post.comments_count}
             post_owner={post.post_owner}
             key={post.id}
