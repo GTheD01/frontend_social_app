@@ -14,6 +14,7 @@ const SavedPosts = () => {
       ) : (
         data?.map((post) => (
           <Post
+            comments_count={post.comments_count}
             post_owner={post.post_owner}
             postId={post.id}
             key={post.id}

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   useDeletePostMutation,
   useLikePostMutation,
+  useRemoveCommentMutation,
   useSavePostMutation,
 } from "../../redux/features/authApiSlice";
 import { toggleActionModal } from "../../redux/features/postSlice";
@@ -16,7 +17,9 @@ import { GrLike } from "react-icons/gr";
 import { FaRegComment } from "react-icons/fa";
 import { BsCollection } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
-import { AttachmentProps } from "../../types/types";
+import { AttachmentProps, CommentProps } from "../../types/types";
+import CommentModal from "./CommentModal";
+import { toggleCommentActionModal } from "../../redux/features/commentSlice";
 
 interface ComponentPostProps {
   image?: string;
@@ -30,6 +33,8 @@ interface ComponentPostProps {
   user_liked: boolean;
   post_saved: boolean;
   post_owner: boolean;
+  comments?: CommentProps[];
+  comments_count: string;
 }
 
 const Post = ({
@@ -44,19 +49,30 @@ const Post = ({
   user_liked,
   post_saved,
   post_owner,
+  comments,
+  comments_count,
 }: ComponentPostProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const { actionModal } = useAppSelector((state) => state.post);
+  const { commentActionModal } = useAppSelector((state) => state.comment);
 
   const [deletePost] = useDeletePostMutation();
+  const [removeComment] = useRemoveCommentMutation();
   const [likePost] = useLikePostMutation();
   const [savePost] = useSavePostMutation();
 
-  const toggleModal = useCallback(
+  const togglePostModal = useCallback(
     (id: string) => {
       dispatch(toggleActionModal({ id }));
+    },
+    [dispatch]
+  );
+
+  const toggleCommentModal = useCallback(
+    (id: string) => {
+      dispatch(toggleCommentActionModal({ id }));
     },
     [dispatch]
   );
@@ -70,6 +86,18 @@ const Post = ({
       })
       .catch((err) => {
         console.log(err);
+      });
+  };
+
+  const deleteCommentHandler = (commentId: string) => {
+    // Delete comment
+    removeComment({ postId: postId, commentId: commentId })
+      .unwrap()
+      .then((res) => {
+        toast.success(res.message);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -104,13 +132,13 @@ const Post = ({
 
       const btnModal = document.getElementById(`btn-${actionModal}`);
       if (e.target !== btnModal) {
-        toggleModal("");
+        togglePostModal("");
       }
     };
 
     const closeModalOnEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape" && actionModal) {
-        toggleModal("");
+        togglePostModal("");
       }
     };
 
@@ -121,7 +149,31 @@ const Post = ({
       document.removeEventListener("click", closeModal);
       document.removeEventListener("keydown", closeModalOnEscape);
     };
-  }, [actionModal, toggleModal]);
+  }, [actionModal, togglePostModal]);
+
+  useEffect(() => {
+    const closeModal = (e: MouseEvent) => {
+      const btnModal = document.getElementById(`comment-${commentActionModal}`);
+
+      if (e.target !== btnModal) {
+        toggleCommentModal("");
+      }
+    };
+
+    const closeModalOnEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && commentActionModal) {
+        toggleCommentModal("");
+      }
+    };
+
+    document.addEventListener("click", closeModal);
+    document.addEventListener("keydown", closeModalOnEscape);
+
+    return () => {
+      document.removeEventListener("click", closeModal);
+      document.removeEventListener("keydown", closeModalOnEscape);
+    };
+  }, [commentActionModal, toggleCommentModal]);
 
   return (
     <div>
@@ -146,7 +198,7 @@ const Post = ({
         </div>
         <button
           id={`btn-${postId}`}
-          onClick={() => toggleModal(postId)}
+          onClick={() => togglePostModal(postId)}
           className="cursor-pointer relative outline-none"
         >
           <HiDotsVertical className="text-gray-500 text-xl pointer-events-none" />
@@ -184,7 +236,9 @@ const Post = ({
           className="flex items-center gap-2 cursor-pointer"
         >
           <FaRegComment />
-          Comment
+          {`${comments_count} ${
+            parseInt(comments_count) > 1 ? "Comments" : "Comment"
+          }`}
         </Link>
         <span
           onClick={savePostHandler}
@@ -194,6 +248,54 @@ const Post = ({
           Save
         </span>
       </div>
+
+      {comments && (
+        <>
+          <p className="font-bold my-8">Comments</p>
+          {comments.length < 1 && <p>No comments</p>}
+          <div className="flex flex-col items-end space-y-4  divide-y-2 divide-gray-200 mt-8">
+            {comments?.map((comment) => (
+              <div
+                key={comment.id}
+                className="flex justify-between w-[90%] p-1"
+              >
+                <div className="flex gap-2 items-start">
+                  <img
+                    alt="comment creator img"
+                    src={comment.created_by.get_avatar}
+                    className="w-12 h-12 rounded-full"
+                  />
+                  <div>
+                    <p className="font-semibold">
+                      {comment.created_by.username}
+                    </p>
+                    <p className="text-sm">{comment.body}</p>
+                  </div>
+                  <span className="text-gray-400 text-xs">
+                    {comment.created_at_formatted} ago
+                  </span>
+                </div>
+
+                <button
+                  id={`comment-${comment.id}`}
+                  onClick={() => toggleCommentModal(comment.id)}
+                  className="cursor-pointer relative outline-none"
+                >
+                  <HiDotsVertical className="text-gray-500 text-sm pointer-events-none" />
+                  <CommentModal
+                    post_owner={post_owner}
+                    commentId={comment.id}
+                    commentDeleteHandler={() =>
+                      deleteCommentHandler(comment.id)
+                    }
+                    comment_owner={comment.comment_owner}
+                  />
+                </button>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

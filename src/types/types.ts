@@ -63,6 +63,16 @@ export interface PostProps {
   user_liked: boolean;
   post_saved: boolean;
   post_owner: boolean;
+  comments: CommentProps[];
+  comments_count: string;
+}
+
+export interface CommentProps {
+  id: string;
+  body: string;
+  created_by: UserProps;
+  created_at_formatted: string;
+  comment_owner: boolean;
 }
 
 // interface PostProps {

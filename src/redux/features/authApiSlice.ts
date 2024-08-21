@@ -99,6 +99,21 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Post"],
     }),
+    commentPost: builder.mutation({
+      query: ({ postId, body }) => ({
+        url: `posts/comment/${postId}/`,
+        method: "POST",
+        body: { body: body },
+      }),
+      invalidatesTags: ["Post"],
+    }),
+    removeComment: builder.mutation({
+      query: ({ postId, commentId }) => ({
+        url: `posts/${postId}/comment/delete/${commentId}/`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Post"],
+    }),
     savePost: builder.mutation({
       query: (id) => ({
         url: `posts/save/${id}/`,
@@ -152,6 +167,8 @@ export const {
   useRetrieveUserDetailsQuery,
   useRetrieveSearchedUsersQuery,
 
+  useRemoveCommentMutation,
+  useCommentPostMutation,
   useFollowUserMutation,
   useRegisterMutation,
   useDeletePostMutation,

@@ -8,7 +8,6 @@ const ActivateUserPage = () => {
   const navigate = useNavigate();
   const [activateUser] = useActivateUserMutation();
 
-
   useEffect(() => {
     activateUser({ uid, token })
       .unwrap()
@@ -16,7 +15,6 @@ const ActivateUserPage = () => {
         toast.success("Account activated. You can log in.");
       })
       .catch(() => {
-        console.log("test");
         toast.error("Failed to activate account");
       })
       .finally(() => {
