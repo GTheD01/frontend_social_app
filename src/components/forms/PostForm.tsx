@@ -2,14 +2,18 @@ import { Form } from "react-router-dom";
 import usePostCreate from "../../hooks/usePostCreate";
 import Spinner from "../common/Spinner";
 
+import EmojiPicker from "emoji-picker-react";
+
 import { RxCross1 } from "react-icons/rx";
 import { IoIosAttach } from "react-icons/io";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
+import { useEffect, useRef, useState } from "react";
 
 const PostForm = () => {
   const {
     body,
+    setBody,
     isLoading,
     onChange,
     onSubmit,
@@ -20,6 +24,35 @@ const PostForm = () => {
     fileUrl,
     clearAttachment,
   } = usePostCreate();
+
+  const [showEmoji, setShowEmoji] = useState(false);
+  const emojiPanelRef = useRef<HTMLSpanElement | null>(null);
+  const emojiTriggerRef = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    const closeEmojiPanelOnEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowEmoji(false);
+      }
+    };
+
+    const closeEmojiPanelOnClickOutside = (e: MouseEvent) => {
+      if (
+        e.target !== emojiTriggerRef.current &&
+        !emojiPanelRef.current?.childNodes[1]?.contains(e.target as Node)
+      ) {
+        setShowEmoji(false);
+      }
+    };
+
+    document.addEventListener("keydown", closeEmojiPanelOnEscape);
+    document.addEventListener("click", closeEmojiPanelOnClickOutside);
+
+    return () => {
+      document.removeEventListener("keydown", closeEmojiPanelOnEscape);
+      document.removeEventListener("click", closeEmojiPanelOnClickOutside);
+    };
+  }, []);
 
   return (
     <Form onSubmit={onSubmit} className="shadow-2xl p-4 w-full">
@@ -59,8 +92,24 @@ const PostForm = () => {
           <span className="cursor-pointer">
             <IoLocationOutline size={24} />
           </span>
-          <span className="cursor-pointer">
-            <MdOutlineEmojiEmotions size={24} />
+          <span className="cursor-pointer relative">
+            <span
+              ref={emojiTriggerRef}
+              onClick={() => setShowEmoji((state) => !state)}
+            >
+              <MdOutlineEmojiEmotions
+                className="pointer-events-none"
+                size={24}
+              />
+            </span>
+            <span ref={emojiPanelRef} className="absolute">
+              <EmojiPicker
+                open={showEmoji}
+                onEmojiClick={(e) => {
+                  setBody((prevState) => prevState + e.emoji);
+                }}
+              />
+            </span>
           </span>
         </div>
         <button

@@ -62,6 +62,7 @@ const usePostCreate = () => {
 
   return {
     body,
+    setBody,
     onChange,
     onSubmit,
     isLoading,
