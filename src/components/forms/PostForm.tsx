@@ -1,7 +1,7 @@
 import { Form } from "react-router-dom";
 import usePostCreate from "../../hooks/usePostCreate";
-import Spinner from "../common/Spinner";
 
+import Spinner from "../common/Spinner";
 import EmojiPicker from "emoji-picker-react";
 
 import { RxCross1 } from "react-icons/rx";
@@ -113,7 +113,7 @@ const PostForm = () => {
           </span>
         </div>
         <button
-          disabled={isLoading || (!selectedFile && body.length < 1)}
+          disabled={isLoading || (!selectedFile && body.trimStart().length < 1)}
           type="submit"
           className="px-8 py-2 rounded-md bg-sky-400 hover:bg-sky-500 disabled:cursor-not-allowed disabled:bg-sky-300"
         >
