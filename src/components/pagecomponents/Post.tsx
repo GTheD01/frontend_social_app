@@ -215,12 +215,13 @@ const Post = ({
       </div>
       {attachments &&
         attachments.map((attachment) => (
-          <img
-            alt="user post img"
-            src={attachment.get_image}
-            key={attachment.id}
-            className="w-full cursor-pointer"
-          />
+          <Link to={`/post/${postId}`} key={attachment.id}>
+            <img
+              alt="user post img"
+              src={attachment.get_image}
+              className="w-full cursor-pointer"
+            />
+          </Link>
         ))}
       <div className="flex gap-4 mt-4">
         <span

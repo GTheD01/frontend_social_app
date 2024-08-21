@@ -16,6 +16,13 @@ const usePostCreate = () => {
     setBody(e.target.value);
   };
 
+  const clearAttachment = () => {
+    if (fileInputRef.current) {
+      setSelectedFile(null);
+      fileInputRef.current.value = "";
+    }
+  };
+
   const imageUploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setSelectedFile(e.target.files[0]);
@@ -46,10 +53,10 @@ const usePostCreate = () => {
         }
         toast.success("Post created");
         setBody("");
+        setError({});
       })
       .catch((err) => {
-        setError({ error: err });
-        console.log(err);
+        setError({ error: err.data.error });
       });
   };
 
@@ -63,6 +70,7 @@ const usePostCreate = () => {
     selectedFile,
     fileInputRef,
     fileUrl,
+    clearAttachment,
   };
 };
 

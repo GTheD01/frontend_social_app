@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useEditProfileMutation } from "../redux/features/authApiSlice";
 
 import { toast } from "react-toastify";
@@ -6,7 +6,7 @@ import { useAppSelector } from "../redux/hooks";
 
 const useEditUserSettings = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const user = useAppSelector((state) => state.user);
 
   const [editProfile, { isLoading }] = useEditProfileMutation();
@@ -41,6 +41,7 @@ const useEditUserSettings = () => {
     if (e.target.files) {
       setSelectedFile(e.target.files[0]);
     }
+    e.target.value = null!;
   };
 
   const onSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -56,7 +57,7 @@ const useEditUserSettings = () => {
     editProfile(sendFormData)
       .unwrap()
       .then(() => {
-        if (fileInputRef.current) {
+        if (selectedFile) {
           setSelectedFile(null);
         }
         toast.success("Information updated");
@@ -74,7 +75,6 @@ const useEditUserSettings = () => {
     username,
     full_name,
     isLoading,
-    fileInputRef,
   };
 };
 

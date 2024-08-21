@@ -12,7 +12,6 @@ const EditUserSettingsForm = () => {
     username,
     email,
     isLoading,
-    fileInputRef,
   } = useEditUserSettings();
 
   return (
@@ -26,7 +25,6 @@ const EditUserSettingsForm = () => {
         {selectedFile ? selectedFile["name"] : "Upload photo"}
       </label>
       <input
-        ref={fileInputRef}
         type="file"
         id="avatar"
         name="avatar"
