@@ -73,8 +73,13 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Post"],
     }),
-    retrievePosts: builder.query<PostProps[], void>({
-      query: () => "/posts/",
+    retrievePosts: builder.query<
+      { results: PostProps[]; next: string | null },
+      string | null | void
+    >({
+      query: (cursor) => {
+        return cursor ? `/posts/?cursor=${cursor}` : "/posts/";
+      },
       providesTags: ["Post", "User"],
     }),
     retrieveProfilePosts: builder.query<PostProps[], string | undefined>({

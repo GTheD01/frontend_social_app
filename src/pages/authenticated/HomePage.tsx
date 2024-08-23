@@ -1,42 +1,25 @@
 import SuggestedPeople from "../../components/pagecomponents/SuggestedPeople";
 import PopularPost from "../../components/pagecomponents/PopularPost";
-import Post from "../../components/pagecomponents/Post";
-import PostForm from "../../components/forms/PostForm";
-import Spinner from "../../components/common/Spinner";
 
-import { useRetrievePostsQuery } from "../../redux/features/authApiSlice";
+import PostForm from "../../components/forms/PostForm";
 
 import logo from "../../assets/result.png";
 
+import PostsList from "../../components/pagecomponents/PostsList";
+import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+
 const HomePage = () => {
-  const { data, isLoading } = useRetrievePostsQuery();
+  const { isFetching, isLoading, posts } = useInfiniteScroll();
 
   return (
     <div className="flex justify-center gap-4 w-full h-full">
       <div className="w-full max-w-[630px] min-w-96 h-full">
         <PostForm />
-        <div className="pt-12 px-4 break-words space-y-6 *:last:pb-16">
-          {isLoading ? (
-            <Spinner />
-          ) : (
-            data?.map((post) => (
-              <Post
-                comments_count={post.comments_count}
-                post_owner={post.post_owner}
-                post_saved={post.post_saved}
-                user_liked={post.user_liked}
-                likes_count={post.likes_count}
-                attachments={post.attachments}
-                image={post.created_by.get_avatar}
-                username={post.created_by.username}
-                created_at={post.created_at_formatted}
-                body={post.body}
-                key={post.id}
-                postId={post.id}
-              />
-            ))
-          )}
-        </div>
+        <PostsList
+          isFetching={isFetching}
+          isLoading={isLoading}
+          posts={posts}
+        />
       </div>
 
       <div className="mr-4 w-72 ">

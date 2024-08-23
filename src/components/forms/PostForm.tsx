@@ -52,7 +52,7 @@ const PostForm = () => {
       document.removeEventListener("keydown", closeEmojiPanelOnEscape);
       document.removeEventListener("click", closeEmojiPanelOnClickOutside);
     };
-  }, []);
+  }, [showEmoji]);
 
   return (
     <Form onSubmit={onSubmit} className="shadow-2xl p-4 w-full">
