@@ -42,8 +42,12 @@ const NavBar = () => {
       text: "Explore",
     },
     {
-      href: "/reels",
-      text: "Reels",
+      href: "/messages",
+      text: "Messages",
+    },
+    {
+      href: "/notifications",
+      text: "Notifications",
     },
     {
       href: "/settings",

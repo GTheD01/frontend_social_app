@@ -15,6 +15,8 @@ import PostPage from "../pages/authenticated/PostPage";
 import UsersSearchPage from "../pages/authenticated/UsersSearchPage";
 import SavedPosts from "../pages/authenticated/SavedPosts";
 import UserPosts from "../pages/authenticated/UserPosts";
+import Messages from "../pages/authenticated/Messages";
+import Conversation from "../pages/authenticated/Conversation";
 
 // import LayoutAuthPage from "../pages/authenticated/LayoutAuthPage";
 // import HomePage from "../pages/authenticated/HomePage";
@@ -85,8 +87,18 @@ const router = createBrowserRouter([
             element: <div>Explore</div>,
           },
           {
-            path: "/reels",
-            element: <div>reels</div>,
+            path: "/messages",
+            element: <Messages />,
+            children: [
+              {
+                path: ":conversationId",
+                element: <Conversation />,
+              },
+            ],
+          },
+          {
+            path: "/notifications",
+            element: <div>Notifications</div>,
           },
           {
             path: "/settings",
