@@ -184,6 +184,7 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
     retrieveConversations: builder.query<ConversationProps[], void>({
       query: () => "/chat/",
+      providesTags: ["Messages"],
     }),
   }),
 });

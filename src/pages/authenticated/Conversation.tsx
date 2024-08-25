@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { Form, Link, useParams } from "react-router-dom";
 import {
   useConversationDetailsQuery,
@@ -14,7 +14,9 @@ const Conversation = () => {
   const [sendMessage] = useSendMessageMutation();
   const { data } = useConversationDetailsQuery({ conversationId });
 
-  const sendMessageHandler = () => {
+  const sendMessageHandler = (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     sendMessage({ conversationId: conversationId, message: message })
       .unwrap()
       .then((res) => {
@@ -26,6 +28,16 @@ const Conversation = () => {
       .finally(() => {
         setMessage("");
       });
+  };
+
+  const onEnterClickHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      (e.currentTarget.form as HTMLFormElement).dispatchEvent(
+        new Event("submit", { bubbles: true })
+      );
+    }
+    console.log(e.shiftKey);
   };
 
   return (
@@ -68,7 +80,7 @@ const Conversation = () => {
           </div>
         ))}
       </div>
-      <Form>
+      <Form onSubmit={sendMessageHandler} className="relative">
         <label htmlFor="sentMessage" className="w-full relative">
           <textarea
             value={message}
@@ -77,9 +89,10 @@ const Conversation = () => {
             autoFocus
             id="sentMessage"
             className="w-full min-h-10 max-h-60 resize-none overflow-y-auto p-2 rounded-2xl outline-none h-auto pr-16"
+            onKeyDown={onEnterClickHandler}
           />
           <button
-            onClick={sendMessageHandler}
+            type="submit"
             className="absolute right-0 bottom-1/2 -translate-y-1/2 mr-3"
           >
             Send

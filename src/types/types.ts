@@ -82,10 +82,16 @@ export interface AttachmentProps {
 
 // CHAT TYPES
 
+export interface LastReceivedMessageProps {
+  last_message?: string;
+  seen: boolean;
+}
+
 export interface ConversationProps {
   id: string;
   modified_at_formatted: string;
   user: UserProps;
+  last_received_message: LastReceivedMessageProps;
 }
 
 export interface MessageProps {
