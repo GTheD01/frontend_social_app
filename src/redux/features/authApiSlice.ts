@@ -1,5 +1,8 @@
+import { Params } from "react-router-dom";
 import {
   ActivateUserProps,
+  ConversationDetailsProps,
+  ConversationProps,
   LoginUserProps,
   LoginUserResponseProps,
   PostProps,
@@ -159,6 +162,29 @@ const authApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    getOrCreateMessage: builder.query({
+      query: (userId) => `chat/get-or-create/${userId}`,
+    }),
+    sendMessage: builder.mutation({
+      query: ({ conversationId, message }) => ({
+        url: `chat/send/${conversationId}/`,
+        method: "POST",
+        body: { message: message },
+      }),
+      invalidatesTags: ["Messages"],
+    }),
+    conversationDetails: builder.query<
+      ConversationDetailsProps,
+      Params<string>
+    >({
+      query: ({ conversationId }) => ({
+        url: `chat/${conversationId}/`,
+      }),
+      providesTags: ["Messages"],
+    }),
+    retrieveConversations: builder.query<ConversationProps[], void>({
+      query: () => "/chat/",
+    }),
   }),
 });
 
@@ -171,7 +197,12 @@ export const {
   useRetrieveSavedPostsQuery,
   useRetrieveUserDetailsQuery,
   useRetrieveSearchedUsersQuery,
+  useConversationDetailsQuery,
+  useRetrieveConversationsQuery,
 
+  useLazyGetOrCreateMessageQuery,
+
+  useSendMessageMutation,
   useRemoveCommentMutation,
   useCommentPostMutation,
   useFollowUserMutation,

@@ -1,23 +1,19 @@
-import ConversationDetails, {
-  ConversationDetailsProps,
-} from "./ConversationDetails";
+import { useRetrieveConversationsQuery } from "../../redux/features/authApiSlice";
+import ConversationDetails from "./ConversationDetails";
 
-interface ConversationsListProps {
-  conversations: ConversationDetailsProps[];
-}
+const ConversationsList = () => {
+  const { data } = useRetrieveConversationsQuery();
 
-const ConversationsList = ({ conversations }: ConversationsListProps) => {
   return (
     <section className="border-r-gray-300 border-r overflow-y-auto w-[350px]">
       <p className="mb-4 font-bold tracking-wide text-xl">Conversations</p>
-      {conversations.map((conversation) => (
+      {data?.map((conversation) => (
         <ConversationDetails
-          key={conversation.conversationId}
-          conversationId={conversation.conversationId}
-          image={conversation.image}
-          name={conversation.name}
-          partialMessage={conversation.partialMessage}
-          timeSent={conversation.timeSent}
+          key={conversation.id}
+          conversationId={conversation.id}
+          image={conversation.user?.get_avatar as string}
+          name={conversation.user?.username}
+          timeSent={conversation.modified_at_formatted}
         />
       ))}
     </section>

@@ -75,21 +75,30 @@ export interface CommentProps {
   comment_owner: boolean;
 }
 
-// interface PostProps {
-//   image?: string;
-//   username: string;
-//   subtitle?: string;
-//   attachments?: AttachmentProps[];
-//   created_at: string;
-//   body: string;
-//   postId: string;
-//   likes_count: string;
-//   user_liked: boolean;
-//   post_saved: boolean;
-//   post_owner: boolean;
-// }
-
 export interface AttachmentProps {
   id: string;
   get_image: string;
+}
+
+// CHAT TYPES
+
+export interface ConversationProps {
+  id: string;
+  modified_at_formatted: string;
+  user: UserProps;
+}
+
+export interface MessageProps {
+  id: string;
+  sent_to: UserProps;
+  created_by: UserProps;
+  created_at_formatted: string;
+  body: string;
+}
+
+export interface ConversationDetailsProps {
+  id: string;
+  users: UserProps[];
+  modified_at_formatted: string;
+  messages: MessageProps[];
 }

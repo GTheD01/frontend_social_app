@@ -1,6 +1,15 @@
-import { useRetrieveUserDetailsQuery } from "../../redux/features/authApiSlice";
+import {
+  useLazyGetOrCreateMessageQuery,
+  useRetrieveUserDetailsQuery,
+} from "../../redux/features/authApiSlice";
 import Spinner from "../../components/common/Spinner";
-import { Link, Outlet, useLocation, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import useFollowUser from "../../hooks/useFollowUser";
 
@@ -8,12 +17,23 @@ const ProfilePage = () => {
   const { username } = useParams();
   const { data, isLoading } = useRetrieveUserDetailsQuery(username);
   const loggedUser = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  const [triggerGetOrCreateMessage] = useLazyGetOrCreateMessageQuery();
 
   const isLoggedUser = data?.username === loggedUser?.username;
 
   const { pathname } = useLocation();
 
   const followUser = useFollowUser();
+
+  const onClick = async (userId: string) => {
+    const { data } = await triggerGetOrCreateMessage(userId);
+
+    if (data && data.id) {
+      navigate(`/messages/${data?.id}`);
+    }
+  };
 
   return (
     <div className="mx-52 px-5 pt-7">
@@ -32,11 +52,18 @@ const ProfilePage = () => {
             <section className="col-span-2 col-start-2 row-start-1  ">
               <div className="flex items-center gap-4">
                 <span className="font-semibold">{data?.username}</span>
-                {isLoggedUser && (
+                {isLoggedUser ? (
                   <>
                     <Link to="/settings">Edit Profile</Link>
                     <button>View archive</button>
                   </>
+                ) : (
+                  <button
+                    onClick={() => onClick(data?.id)}
+                    className="border border-gray-300 p-2"
+                  >
+                    Message
+                  </button>
                 )}
               </div>
             </section>

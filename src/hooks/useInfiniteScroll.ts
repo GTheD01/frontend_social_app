@@ -12,6 +12,13 @@ const useInfiniteScroll = () => {
   const [posts, setPosts] = useState<PostProps[]>([]);
 
   useEffect(() => {
+    return () => {
+      setPosts([]);
+      setCursor("");
+    };
+  }, []);
+
+  useEffect(() => {
     if (data?.results) {
       setPosts((prevPosts) => [...prevPosts, ...data.results]);
     }
@@ -33,7 +40,9 @@ const useInfiniteScroll = () => {
 
     window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [cursor, isFetching, data]);
 
   return {
