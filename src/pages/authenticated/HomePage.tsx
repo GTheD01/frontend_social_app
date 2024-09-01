@@ -9,16 +9,16 @@ import PostsList from "../../components/pagecomponents/PostsList";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 
 const HomePage = () => {
-  const { isFetching, isLoading, posts } = useInfiniteScroll();
+  const { isLoading, isFetching, posts } = useInfiniteScroll();
 
   return (
     <div className="flex justify-center gap-4 w-full h-full">
       <div className="w-full max-w-[630px] min-w-96 h-full">
         <PostForm />
         <PostsList
-          isFetching={isFetching}
           isLoading={isLoading}
           posts={posts}
+          isFetching={isFetching}
         />
       </div>
 

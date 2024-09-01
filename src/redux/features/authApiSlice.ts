@@ -5,6 +5,7 @@ import {
   ConversationProps,
   LoginUserProps,
   LoginUserResponseProps,
+  NotificationProps,
   PostProps,
   RegisterUserProps,
   RegisterUserResponseProps,
@@ -15,7 +16,7 @@ import {
 
 import { apiSlice } from "../services/apiSlice";
 
-const authApiSlice = apiSlice.injectEndpoints({
+export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation<RegisterUserResponseProps, RegisterUserProps>({
       query: ({ full_name, username, email, password, re_password }) => ({
@@ -68,71 +69,7 @@ const authApiSlice = apiSlice.injectEndpoints({
       query: () => "/users/me/",
       providesTags: ["User"],
     }),
-    createPost: builder.mutation({
-      query: (formData) => ({
-        url: "/posts/create/",
-        method: "POST",
-        body: formData,
-      }),
-      invalidatesTags: ["Post"],
-    }),
-    retrievePosts: builder.query<
-      { results: PostProps[]; next: string | null },
-      string | null | void
-    >({
-      query: (cursor) => {
-        return cursor ? `/posts/?cursor=${cursor}` : "/posts/";
-      },
-      providesTags: ["Post", "User"],
-    }),
-    retrieveProfilePosts: builder.query<PostProps[], string | undefined>({
-      query: (username) => `/posts/profile/${username}`,
-      providesTags: ["Post"],
-    }),
-    retrievePostDetails: builder.query({
-      query: (id) => `posts/${id}/`,
-      providesTags: ["Post"],
-    }),
-    deletePost: builder.mutation({
-      query: (id) => ({
-        url: `posts/delete/${id}/`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["Post"],
-    }),
-    likePost: builder.mutation({
-      query: (id) => ({
-        url: `posts/like/${id}/`,
-        method: "POST",
-      }),
-      invalidatesTags: ["Post"],
-    }),
-    commentPost: builder.mutation({
-      query: ({ postId, body }) => ({
-        url: `posts/comment/${postId}/`,
-        method: "POST",
-        body: { body: body },
-      }),
-      invalidatesTags: ["Post"],
-    }),
-    removeComment: builder.mutation({
-      query: ({ postId, commentId }) => ({
-        url: `posts/${postId}/comment/delete/${commentId}/`,
-        method: "POST",
-      }),
-      invalidatesTags: ["Post"],
-    }),
-    savePost: builder.mutation({
-      query: (id) => ({
-        url: `posts/save/${id}/`,
-        method: "POST",
-      }),
-      invalidatesTags: ["Post"],
-    }),
-    retrieveSavedPosts: builder.query<PostProps[], string | undefined>({
-      query: (username) => `posts/saved/${username}`,
-      providesTags: ["Post"],
-    }),
+
     retrieveUsers: builder.query<UserProps[], void>({
       query: () => "/users/",
       providesTags: ["User"],
@@ -186,37 +123,46 @@ const authApiSlice = apiSlice.injectEndpoints({
       query: () => "/chat/",
       providesTags: ["Messages"],
     }),
+
+    retrieveNotifications: builder.query<NotificationProps[], void>({
+      query: () => "notifications/",
+      providesTags: ["Notifications"],
+    }),
+    readNotification: builder.mutation({
+      query: (notificationId) => ({
+        url: `notifications/read/${notificationId}/`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Notifications", "User"],
+    }),
   }),
 });
 
 export const {
   useRetrieveUserQuery,
-  useRetrievePostsQuery,
-  useRetrieveProfilePostsQuery,
-  useRetrievePostDetailsQuery,
+
   useRetrieveUsersQuery,
-  useRetrieveSavedPostsQuery,
+
   useRetrieveUserDetailsQuery,
   useRetrieveSearchedUsersQuery,
   useConversationDetailsQuery,
   useRetrieveConversationsQuery,
+  useRetrieveNotificationsQuery,
 
   useLazyGetOrCreateMessageQuery,
 
+  useReadNotificationMutation,
   useSendMessageMutation,
-  useRemoveCommentMutation,
-  useCommentPostMutation,
+
   useFollowUserMutation,
   useRegisterMutation,
-  useDeletePostMutation,
-  useLikePostMutation,
-  useSavePostMutation,
+
   useVerifyMutation,
   useLoginMutation,
   useActivateUserMutation,
   useResetPasswordMutation,
   useResetPasswordConfirmMutation,
   useLogoutMutation,
-  useCreatePostMutation,
+
   useEditProfileMutation,
 } = authApiSlice;

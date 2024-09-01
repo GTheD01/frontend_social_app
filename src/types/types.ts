@@ -51,6 +51,7 @@ export interface UserProps {
   followers_count: string;
   following_count: string;
   user_follows: boolean;
+  notifications_count: string;
 }
 
 export interface PostProps {
@@ -65,6 +66,11 @@ export interface PostProps {
   post_owner: boolean;
   comments: CommentProps[];
   comments_count: string;
+}
+
+export interface RetrievePostsResponse {
+  results: PostProps[];
+  next: string | null;
 }
 
 export interface CommentProps {
@@ -107,4 +113,13 @@ export interface ConversationDetailsProps {
   users: UserProps[];
   modified_at_formatted: string;
   messages: MessageProps[];
+}
+
+export interface NotificationProps {
+  id: string;
+  body: string;
+  post_id: string;
+  created_for: string;
+  notification_type: string;
+  is_read: boolean;
 }

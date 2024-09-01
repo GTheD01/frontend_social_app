@@ -3,11 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 
 import {
   useDeletePostMutation,
-  useLikePostMutation,
   useRemoveCommentMutation,
+} from "../../redux/features/postsApiSlice";
+import {
+  useLikePostMutation,
   useSavePostMutation,
-} from "../../redux/features/authApiSlice";
-import { toggleActionModal } from "../../redux/features/postSlice";
+} from "../../redux/features/postsApiSlice";
+import {
+  toggleActionModal,
+  updateDeletePost,
+  updateLikePost,
+  updateSavedPost,
+} from "../../redux/features/postSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import PostModal from "./PostModal";
 
@@ -78,6 +85,7 @@ const Post = ({
   );
 
   const postDeleteHandler = () => {
+    dispatch(updateDeletePost(postId));
     deletePost(postId)
       .unwrap()
       .then((response) => {
@@ -102,24 +110,34 @@ const Post = ({
   };
 
   const postLikeHandler = () => {
+    // update the ui optimisticallY
+
+    dispatch(updateLikePost(postId));
+
     likePost(postId)
       .unwrap()
       .then((response) => {
-        toast.success(response.message);
+        // toast.success(response.message);
       })
       .catch((err) => {
-        console.log(err);
+        // if request fail we revert the values to previous state
+        dispatch(updateLikePost(postId));
       });
   };
 
   const savePostHandler = () => {
+    // update the ui optimisticallY
+
+    dispatch(updateSavedPost(postId));
+
     savePost(postId)
       .unwrap()
       .then((response) => {
         toast.success(response.message);
       })
       .catch((err) => {
-        toast.error(err);
+        // if request fail we revert the values to previous state
+        dispatch(updateSavedPost(postId));
       });
   };
 
@@ -176,7 +194,7 @@ const Post = ({
   }, [commentActionModal, toggleCommentModal]);
 
   return (
-    <div>
+    <div key={postId}>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img

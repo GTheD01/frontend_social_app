@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
 import { ErrorObject } from "../types/zodTypes";
-import { useCreatePostMutation } from "../redux/features/authApiSlice";
+import { useCreatePostMutation } from "../redux/features/postsApiSlice";
 
 import { toast } from "react-toastify";
 

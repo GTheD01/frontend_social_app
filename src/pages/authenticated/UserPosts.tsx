@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 
-import { useRetrieveProfilePostsQuery } from "../../redux/features/authApiSlice";
+import { useRetrieveProfilePostsQuery } from "../../redux/features/postsApiSlice";
 import PostsList from "../../components/pagecomponents/PostsList";
 
 const UserPosts = () => {

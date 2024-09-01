@@ -10,6 +10,7 @@ const initialState: UserProps & { isLoading?: boolean } = {
   username: "",
   get_avatar: "",
   posts_count: "",
+  notifications_count: "",
   user_follows: false,
 };
 
@@ -27,6 +28,7 @@ const userSlice = createSlice({
       state.posts_count = payload.posts_count;
       state.full_name = payload.full_name;
       state.user_follows = payload.user_follows;
+      state.notifications_count = payload.notifications_count;
     },
     setIsLoading: (state, { payload }) => {
       state.isLoading = payload;

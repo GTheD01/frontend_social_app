@@ -137,14 +137,19 @@ const NavBar = () => {
                 key={link.href}
                 className={({ isActive }) =>
                   [
-                    " text-xl text-gray-400 hover:bg-gray-300",
-                    isActive ? "border-l-4 border-gray-500 p-3" : "p-4",
+                    "text-xl text-gray-400 hover:bg-gray-300 relative",
+                    isActive ? "border-l-4 border-gray-500 p-4" : "p-3",
                   ]
                     .filter(Boolean)
                     .join(" ")
                 }
               >
                 {link.text}
+                {link.text === "Notifications" && (
+                  <span className="absolute top-0 right-0 text-white bg-red-500 rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                    {user.notifications_count}
+                  </span>
+                )}
               </NavLink>
             ))}
           </ul>

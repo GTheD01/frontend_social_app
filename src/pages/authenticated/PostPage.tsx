@@ -3,7 +3,7 @@ import { Form, useParams } from "react-router-dom";
 import {
   useCommentPostMutation,
   useRetrievePostDetailsQuery,
-} from "../../redux/features/authApiSlice";
+} from "../../redux/features/postsApiSlice";
 import Post from "../../components/pagecomponents/Post";
 import Spinner from "../../components/common/Spinner";
 import { useEffect, useRef, useState } from "react";

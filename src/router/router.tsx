@@ -17,6 +17,7 @@ import SavedPosts from "../pages/authenticated/SavedPosts";
 import UserPosts from "../pages/authenticated/UserPosts";
 import Messages from "../pages/authenticated/Messages";
 import Conversation from "../pages/authenticated/Conversation";
+import Notifications from "../pages/authenticated/Notifications";
 
 // import LayoutAuthPage from "../pages/authenticated/LayoutAuthPage";
 // import HomePage from "../pages/authenticated/HomePage";
@@ -98,7 +99,7 @@ const router = createBrowserRouter([
           },
           {
             path: "/notifications",
-            element: <div>Notifications</div>,
+            element: <Notifications />,
           },
           {
             path: "/settings",

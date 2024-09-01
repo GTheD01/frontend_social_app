@@ -37,7 +37,6 @@ const Conversation = () => {
         new Event("submit", { bubbles: true })
       );
     }
-    console.log(e.shiftKey);
   };
 
   return (
