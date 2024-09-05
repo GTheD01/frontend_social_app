@@ -143,11 +143,6 @@ const Post = ({
 
   useEffect(() => {
     const closeModal = (e: MouseEvent) => {
-      // const btnsModal = document.querySelectorAll(
-      //   `button[data-postid='${actionModal}']`
-      // );
-      // const btnModal = btnsModal[0];
-
       const btnModal = document.getElementById(`btn-${actionModal}`);
       if (e.target !== btnModal) {
         togglePostModal("");

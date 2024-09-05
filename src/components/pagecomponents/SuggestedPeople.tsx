@@ -1,29 +1,33 @@
+import { Link } from "react-router-dom";
+
+import { FaArrowRightLong } from "react-icons/fa6";
+
 interface SuggestedPeopleProps {
-  logo: string;
+  fullName: string;
   username: string;
-  profession: string;
+  avatar: string;
 }
 
 const SuggestedPeople = ({
-  logo,
+  fullName,
   username,
-  profession,
+  avatar,
 }: SuggestedPeopleProps) => {
   return (
-    <div className="flex items-center mt-6">
+    <Link to={`/profile/${username}`} className="flex items-center mt-6 gap-2">
       <img
-        src={logo}
+        src={avatar}
         alt="user pic"
         className="w-12 h-12 object-contain rounded-full hover:cursor-pointer"
       />
       <div>
-        <p className="text-sky-500 text-md hover:cursor-pointer">{username}</p>
-        <span className="text-gray-400 text-sm">{profession}</span>
+        <p className="text-sky-500 text-md hover:cursor-pointer">{fullName}</p>
+        <span className="text-gray-400 text-sm">{username}</span>
       </div>
-      <span className="ml-auto rounded-full bg-gray-300 w-7 h-7 text-center hover:cursor-pointer">
-        +
+      <span className="ml-auto hover:cursor-pointer flex items-center justify-center">
+        <FaArrowRightLong />
       </span>
-    </div>
+    </Link>
   );
 };
 

@@ -41,6 +41,13 @@ export interface ResetPasswordConfirmProps {
   re_new_password?: string;
 }
 
+interface SuggestedPeopleProps {
+  id: string;
+  full_name: string;
+  username: string;
+  get_avatar: string;
+}
+
 export interface UserProps {
   id: string;
   full_name: string;
@@ -52,6 +59,7 @@ export interface UserProps {
   following_count: string;
   user_follows: boolean;
   notifications_count: string;
+  suggested_people: SuggestedPeopleProps[];
 }
 
 export interface PostProps {

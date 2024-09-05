@@ -7,9 +7,11 @@ import logo from "../../assets/result.png";
 
 import PostsList from "../../components/pagecomponents/PostsList";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
+import { useAppSelector } from "../../redux/hooks";
 
 const HomePage = () => {
   const { isLoading, isFetching, posts } = useInfiniteScroll();
+  const { suggested_people } = useAppSelector((state) => state.user);
 
   return (
     <div className="flex justify-center gap-4 w-full h-full">
@@ -31,26 +33,16 @@ const HomePage = () => {
         />
 
         <div className="bg-white p-4 mt-10 rounded-md">
-          <div className="flex justify-between">
-            <h2>Suggested people</h2>
-            <span>:</span>
-          </div>
+          <h2>Suggested people</h2>
           <div>
-            <SuggestedPeople
-              logo={logo}
-              username="Georgi Popeftimov"
-              profession="Software Engineer"
-            />
-            <SuggestedPeople
-              logo={logo}
-              username="Georgi Popeftimov"
-              profession="Software Engineer"
-            />
-            <SuggestedPeople
-              logo={logo}
-              username="Georgi Popeftimov"
-              profession="Software Engineer"
-            />
+            {suggested_people.map((person) => (
+              <SuggestedPeople
+                key={person.id}
+                username={person.username}
+                fullName={person.full_name}
+                avatar={person.get_avatar}
+              />
+            ))}
           </div>
         </div>
       </div>
