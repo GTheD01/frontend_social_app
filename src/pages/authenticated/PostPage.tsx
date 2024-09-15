@@ -1,4 +1,8 @@
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Form, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { toast } from "react-toastify";
 
 import {
   useCommentPostMutation,
@@ -6,14 +10,14 @@ import {
 } from "../../redux/features/postsApiSlice";
 import Post from "../../components/pagecomponents/Post";
 import Spinner from "../../components/common/Spinner";
-import { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { addPostComment } from "../../redux/features/postSlice";
 
 const PostPage = () => {
   const { postId } = useParams();
   const textRef = useRef<HTMLTextAreaElement | null>(null);
   const [commentBody, setCommentBody] = useState("");
   const [commentError, setCommentError] = useState("");
+  const dispatch = useDispatch();
 
   const { data, isLoading } = useRetrievePostDetailsQuery(postId);
 
@@ -25,7 +29,9 @@ const PostPage = () => {
 
   const [commentPost] = useCommentPostMutation();
 
-  const commentPostHandler = () => {
+  const commentPostHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(addPostComment(postId as string));
     commentPost({ postId: postId, body: commentBody })
       .unwrap()
       .then((res) => {
@@ -59,7 +65,7 @@ const PostPage = () => {
               postId={data?.id}
             />
 
-            <Form className="mt-8">
+            <Form className="mt-8" onSubmit={(e) => commentPostHandler(e)}>
               <div className="relative w-full">
                 <textarea
                   value={commentBody}
@@ -69,7 +75,7 @@ const PostPage = () => {
                   className="resize-none w-full p-2 pr-24 outline-none bg-transparent shadow-md"
                 ></textarea>
                 <button
-                  onClick={commentPostHandler}
+                  type="submit"
                   className="absolute top-1/2 -translate-y-1/2 right-0 w-24 text-gray-800"
                 >
                   Comment

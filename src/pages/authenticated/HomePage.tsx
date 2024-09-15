@@ -1,27 +1,29 @@
 import SuggestedPeople from "../../components/pagecomponents/SuggestedPeople";
 import PopularPost from "../../components/pagecomponents/PopularPost";
-
 import PostForm from "../../components/forms/PostForm";
-
-import logo from "../../assets/result.png";
-
 import PostsList from "../../components/pagecomponents/PostsList";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { useAppSelector } from "../../redux/hooks";
 
+import logo from "../../assets/result.png";
+
 const HomePage = () => {
-  const { isLoading, isFetching, posts } = useInfiniteScroll();
+  const { isLoading, isFetching } = useInfiniteScroll();
+
   const { suggested_people } = useAppSelector((state) => state.user);
+  const posts = useAppSelector((state) => state.post.posts);
 
   return (
     <div className="flex justify-center gap-4 w-full h-full">
       <div className="w-full max-w-[630px] min-w-96 h-full">
         <PostForm />
-        <PostsList
-          isLoading={isLoading}
-          posts={posts}
-          isFetching={isFetching}
-        />
+        {!isLoading && (
+          <PostsList
+            isLoading={isLoading}
+            posts={posts}
+            isFetching={isFetching}
+          />
+        )}
       </div>
 
       <div className="mr-4 w-72 ">

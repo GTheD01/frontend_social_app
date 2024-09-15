@@ -17,22 +17,22 @@ const CommentModal = ({
 
   return (
     <div
-      className={`absolute top-4 right-4 bg-white transition-opacity ease-in ${
+      className={`absolute top-4 right-4 bg-white transition-opacity ease-in z-10 ${
         commentActionModal === commentId
           ? "opacity-100 visible"
           : "opacity-0 invisible pointer-events-none"
       }`}
     >
-      <ul>
-        {(comment_owner || post_owner) && (
+      {(comment_owner || post_owner) && (
+        <ul>
           <li
             onClick={commentDeleteHandler}
             className="p-4 cursor-pointer hover:bg-gray-200 text-red-500"
           >
             Delete
           </li>
-        )}
-      </ul>
+        </ul>
+      )}
     </div>
   );
 };

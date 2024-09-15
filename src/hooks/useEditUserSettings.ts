@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { useEditProfileMutation } from "../redux/features/authApiSlice";
 
 import { toast } from "react-toastify";
+
+import { useEditProfileMutation } from "../redux/features/authApiSlice";
 import { useAppSelector } from "../redux/hooks";
 
 const useEditUserSettings = () => {

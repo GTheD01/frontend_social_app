@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { PostProps } from "../../types/types";
 
 interface AuthState {
@@ -9,7 +10,6 @@ interface AuthState {
 const initialState = {
   actionModal: null,
   posts: [],
-  postsLoading: true,
 } as AuthState;
 
 const postSlice = createSlice({
@@ -50,6 +50,27 @@ const postSlice = createSlice({
       state.posts = state.posts.filter((post) => post.id !== postId.payload);
     },
 
+    deletePostComments: (state, postId: PayloadAction<string>) => {
+      const postToUpdate = state.posts.findIndex(
+        (post) => post.id === postId.payload
+      );
+      if (postToUpdate !== -1) {
+        state.posts[postToUpdate].comments_count = String(
+          Number(state.posts[postToUpdate].comments_count) - 1
+        );
+      }
+    },
+    addPostComment: (state, postId: PayloadAction<string>) => {
+      const postToUpdate = state.posts.findIndex(
+        (post) => post.id === postId.payload
+      );
+      if (postToUpdate !== -1) {
+        state.posts[postToUpdate].comments_count = String(
+          Number(state.posts[postToUpdate].comments_count) + 1
+        );
+      }
+    },
+
     updateLikePost: (state, postId: PayloadAction<string>) => {
       const post = state.posts.find((post) => post.id === postId.payload);
 
@@ -77,6 +98,8 @@ export const {
   updateLikePost,
   updateSavedPost,
   addPost,
+  addPostComment,
+  deletePostComments,
   appendPosts,
 } = postSlice.actions;
 export default postSlice.reducer;

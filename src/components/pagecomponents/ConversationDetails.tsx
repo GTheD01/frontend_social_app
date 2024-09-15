@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+
 import { LastReceivedMessageProps } from "../../types/types";
 
 import { GoDotFill } from "react-icons/go";

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import { UserProps } from "../../types/types";
 
 const initialState: UserProps & { isLoading?: boolean } = {

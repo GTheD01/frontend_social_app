@@ -1,4 +1,5 @@
 import { Params } from "react-router-dom";
+
 import {
   ActivateUserProps,
   ConversationDetailsProps,
@@ -6,14 +7,12 @@ import {
   LoginUserProps,
   LoginUserResponseProps,
   NotificationProps,
-  PostProps,
   RegisterUserProps,
   RegisterUserResponseProps,
   ResetPasswordConfirmProps,
   ResetPasswordProps,
   UserProps,
 } from "../../types/types";
-
 import { apiSlice } from "../services/apiSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({

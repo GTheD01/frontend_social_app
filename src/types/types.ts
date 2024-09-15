@@ -123,6 +123,8 @@ export interface ConversationDetailsProps {
   messages: MessageProps[];
 }
 
+// NOTIFICATION TYPES
+
 export interface NotificationProps {
   id: string;
   body: string;

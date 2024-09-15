@@ -14,10 +14,8 @@ export default function PostsList({
   isFetching,
 }: PostsListProps) {
   return (
-    <div className="pt-12 px-4 break-words space-y-6 *:last:pb-16">
-      {isLoading ? (
-        <Spinner />
-      ) : (
+    <ul className="pt-12 px-4 break-words space-y-6 *:last:pb-16">
+      {!isLoading &&
         posts?.map((post) => {
           return (
             <Post
@@ -35,9 +33,8 @@ export default function PostsList({
               postId={post.id}
             />
           );
-        })
-      )}
+        })}
       <div>{isFetching && <Spinner lg />}</div>
-    </div>
+    </ul>
   );
 }

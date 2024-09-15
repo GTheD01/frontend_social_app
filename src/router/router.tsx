@@ -1,24 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
-import RequireAuth from "../lib/RequireAuth";
+import { lazy, Suspense } from "react";
 
-// import Layout from "../pages/Layout";
+import RequireAuth from "../lib/RequireAuth";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import ActivateUserPage from "../pages/ActivateUserPage";
 import ResetPasswordConfirmPage from "../pages/ResetPasswordConfirmPage";
-import { lazy, Suspense } from "react";
 import Spinner from "../components/common/Spinner";
 import ProfilePage from "../pages/authenticated/ProfilePage";
 import UserSettingsPage from "../pages/authenticated/UserSettingsPage";
-import PostPage from "../pages/authenticated/PostPage";
-import UsersSearchPage from "../pages/authenticated/UsersSearchPage";
 import SavedPosts from "../pages/authenticated/SavedPosts";
 import UserPosts from "../pages/authenticated/UserPosts";
 import Messages from "../pages/authenticated/Messages";
 import Conversation from "../pages/authenticated/Conversation";
 import Notifications from "../pages/authenticated/Notifications";
 
+// import UsersSearchPage from "../pages/authenticated/UsersSearchPage";
+// import PostPage from "../pages/authenticated/PostPage";
+// import Layout from "../pages/Layout";
 // import LayoutAuthPage from "../pages/authenticated/LayoutAuthPage";
 // import HomePage from "../pages/authenticated/HomePage";
 
@@ -27,6 +27,10 @@ const LayoutAuthPage = lazy(
   () => import("../pages/authenticated/LayoutAuthPage")
 );
 const HomePage = lazy(() => import("../pages/authenticated/HomePage"));
+const PostPage = lazy(() => import("../pages/authenticated/PostPage"));
+const UsersSearchPage = lazy(
+  () => import("../pages/authenticated/UsersSearchPage")
+);
 
 const router = createBrowserRouter([
   {

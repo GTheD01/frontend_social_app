@@ -1,7 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useActivateUserMutation } from "../redux/features/authApiSlice";
 import { useEffect } from "react";
+
 import { toast } from "react-toastify";
+
+import { useActivateUserMutation } from "../redux/features/authApiSlice";
 
 const ActivateUserPage = () => {
   const { uid, token } = useParams();

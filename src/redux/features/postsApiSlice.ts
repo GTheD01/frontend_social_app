@@ -1,6 +1,5 @@
 import { PostProps, RetrievePostsResponse } from "../../types/types";
 import { apiSlice } from "../services/apiSlice";
-import { addPost } from "./postSlice";
 
 export const postsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,23 +14,6 @@ export const postsApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: formData,
       }),
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
-        try {
-          const { data: updatedPost } = await queryFulfilled;
-
-          dispatch(addPost(updatedPost));
-
-          dispatch(
-            postsApiSlice.util.updateQueryData(
-              "retrievePosts",
-              null,
-              (draft) => {
-                draft.results.unshift(updatedPost);
-              }
-            )
-          );
-        } catch {}
-      },
       invalidatesTags: ["Post"],
     }),
     likePost: builder.mutation({
@@ -39,55 +21,13 @@ export const postsApiSlice = apiSlice.injectEndpoints({
         url: `posts/like/${id}/`,
         method: "POST",
       }),
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
-        try {
-          const { data: updatedPost } = await queryFulfilled;
-
-          dispatch(
-            postsApiSlice.util.updateQueryData(
-              "retrievePosts",
-              null,
-              (draft) => {
-                const postIndex = draft.results.findIndex(
-                  (post) => post.id === id
-                );
-
-                if (postIndex !== -1) {
-                  draft.results[postIndex] = updatedPost;
-                }
-              }
-            )
-          );
-        } catch {}
-      },
-      invalidatesTags: ["User", "Post"],
+      invalidatesTags: ["Post"],
     }),
     savePost: builder.mutation({
       query: (id) => ({
         url: `posts/save/${id}/`,
         method: "POST",
       }),
-      async onQueryStarted(id, { dispatch, queryFulfilled }) {
-        try {
-          const { data: updatedPost } = await queryFulfilled;
-
-          dispatch(
-            postsApiSlice.util.updateQueryData(
-              "retrievePosts",
-              null,
-              (draft) => {
-                const postIndex = draft.results.findIndex(
-                  (post) => post.id === id
-                );
-
-                if (postIndex !== -1) {
-                  draft.results[postIndex] = updatedPost;
-                }
-              }
-            )
-          );
-        } catch {}
-      },
       invalidatesTags: ["Post"],
     }),
     retrieveProfilePosts: builder.query<PostProps[], string | undefined>({
@@ -103,25 +43,6 @@ export const postsApiSlice = apiSlice.injectEndpoints({
         url: `posts/delete/${id}/`,
         method: "DELETE",
       }),
-      async onQueryStarted(id, { dispatch }) {
-        try {
-          dispatch(
-            postsApiSlice.util.updateQueryData(
-              "retrievePosts",
-              null,
-              (draft) => {
-                const postIndex = draft.results.findIndex(
-                  (post) => post.id === id
-                );
-
-                if (postIndex > -1) {
-                  draft.results.splice(postIndex, 1);
-                }
-              }
-            )
-          );
-        } catch {}
-      },
       invalidatesTags: ["Post"],
     }),
 

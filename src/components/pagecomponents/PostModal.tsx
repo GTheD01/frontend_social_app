@@ -15,7 +15,7 @@ const PostModal = ({
 
   return (
     <div
-      className={`absolute top-4 right-4 bg-white transition-opacity ease-in ${
+      className={`absolute top-4 right-4 bg-white transition-opacity ease-in z-10 ${
         actionModal === postId
           ? "opacity-100 visible"
           : "opacity-0 invisible pointer-events-none"

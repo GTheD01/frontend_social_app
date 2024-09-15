@@ -1,12 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 
-import { useResetPasswordMutation } from "../redux/features/authApiSlice";
-
 import { z } from "zod";
+import { toast } from "react-toastify";
+
+import { useResetPasswordMutation } from "../redux/features/authApiSlice";
 import { ErrorObject } from "../types/zodTypes";
 import { toErrorObject } from "../lib/utils";
 import { ResetPasswordUserSchema } from "../schemas";
-import { toast } from "react-toastify";
 
 const useResetPassword = () => {
   const [resetPassword, { isLoading }] = useResetPasswordMutation();

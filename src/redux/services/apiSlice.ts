@@ -3,9 +3,10 @@ import type {
   FetchArgs,
   FetchBaseQueryError,
 } from "@reduxjs/toolkit/query";
-import { setAuth, logout } from "../features/authSlice";
 import { Mutex } from "async-mutex";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+import { setAuth, logout } from "../features/authSlice";
 
 // create a new mutex
 const mutex = new Mutex();

@@ -10,13 +10,18 @@ import {
   useSavePostMutation,
 } from "../../redux/features/postsApiSlice";
 import {
+  deletePostComments,
   toggleActionModal,
   updateDeletePost,
   updateLikePost,
   updateSavedPost,
 } from "../../redux/features/postSlice";
+import { toggleCommentActionModal } from "../../redux/features/commentSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import PostModal from "./PostModal";
+import { AttachmentProps, CommentProps } from "../../types/types";
+import CommentModal from "./CommentModal";
+import Carousel from "./Carousel";
 
 import { toast } from "react-toastify";
 
@@ -24,9 +29,6 @@ import { GrLike } from "react-icons/gr";
 import { FaRegComment } from "react-icons/fa";
 import { BsCollection } from "react-icons/bs";
 import { HiDotsVertical } from "react-icons/hi";
-import { AttachmentProps, CommentProps } from "../../types/types";
-import CommentModal from "./CommentModal";
-import { toggleCommentActionModal } from "../../redux/features/commentSlice";
 
 interface ComponentPostProps {
   image?: string;
@@ -99,6 +101,7 @@ const Post = ({
 
   const deleteCommentHandler = (commentId: string) => {
     // Delete comment
+    dispatch(deletePostComments(postId));
     removeComment({ postId: postId, commentId: commentId })
       .unwrap()
       .then((res) => {
@@ -189,7 +192,10 @@ const Post = ({
   }, [commentActionModal, toggleCommentModal]);
 
   return (
-    <div key={postId}>
+    <li
+      key={postId}
+      className="overflow-x-hidden list-none max-w-[560px] overflow-y-hidden pb-4"
+    >
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img
@@ -211,8 +217,10 @@ const Post = ({
         </div>
         <button
           id={`btn-${postId}`}
+          aria-pressed={actionModal === postId}
+          aria-label="post-actions-modal-button"
           onClick={() => togglePostModal(postId)}
-          className="cursor-pointer relative outline-none"
+          className="cursor-pointer relative outline-none not-sr-only"
         >
           <HiDotsVertical className="text-gray-500 text-xl pointer-events-none" />
 
@@ -226,16 +234,9 @@ const Post = ({
       <div className="py-4">
         <p>{body}</p>
       </div>
-      {attachments &&
-        attachments.map((attachment) => (
-          <Link to={`/post/${postId}`} key={attachment.id}>
-            <img
-              alt="user post img"
-              src={attachment.get_image}
-              className="w-full cursor-pointer"
-            />
-          </Link>
-        ))}
+      {attachments && attachments.length > 0 && (
+        <Carousel attachments={attachments} />
+      )}
       <div className="flex gap-4 mt-4">
         <span
           onClick={postLikeHandler}
@@ -267,11 +268,11 @@ const Post = ({
         <>
           <p className="font-bold my-8">Comments</p>
           {comments.length < 1 && <p>No comments</p>}
-          <div className="flex flex-col items-end space-y-4  divide-y-2 divide-gray-200 mt-8">
+          <div className="flex flex-col items-end space-y-4  divide-y-2 divide-gray-200">
             {comments?.map((comment) => (
               <div
                 key={comment.id}
-                className="flex justify-between w-[90%] p-1"
+                className="flex items-start justify-between w-[90%] p-1"
               >
                 <div className="flex gap-2 items-start">
                   <img
@@ -310,7 +311,7 @@ const Post = ({
           </div>
         </>
       )}
-    </div>
+    </li>
   );
 };
 

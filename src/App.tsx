@@ -1,9 +1,11 @@
-import "./App.css";
-import Setup from "./lib/Setup";
+import { RouterProvider } from "react-router-dom";
+
 import CustomProvider from "./redux/provider";
 import router from "./router/router";
-import { RouterProvider } from "react-router-dom";
+import Setup from "./lib/Setup";
+
 import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
 
 function App() {
   return (

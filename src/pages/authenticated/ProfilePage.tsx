@@ -1,15 +1,16 @@
 import {
-  useLazyGetOrCreateMessageQuery,
-  useRetrieveUserDetailsQuery,
-} from "../../redux/features/authApiSlice";
-import Spinner from "../../components/common/Spinner";
-import {
   Link,
   Outlet,
   useLocation,
   useNavigate,
   useParams,
 } from "react-router-dom";
+
+import {
+  useLazyGetOrCreateMessageQuery,
+  useRetrieveUserDetailsQuery,
+} from "../../redux/features/authApiSlice";
+import Spinner from "../../components/common/Spinner";
 import { useAppSelector } from "../../redux/hooks";
 import useFollowUser from "../../hooks/useFollowUser";
 
@@ -108,17 +109,19 @@ const ProfilePage = () => {
             >
               POSTS
             </Link>
-            <Link
-              to="saved"
-              aria-selected={pathname.endsWith("saved")}
-              className={`${
-                pathname.endsWith("saved")
-                  ? "aria-selected:border-white aria-selected:mt-[-1.8px] aria-selected:border-t-2"
-                  : ""
-              } cursor-pointer transition ease-in duration-500`}
-            >
-              SAVED
-            </Link>
+            {isLoggedUser && (
+              <Link
+                to="saved"
+                aria-selected={pathname.endsWith("saved")}
+                className={`${
+                  pathname.endsWith("saved")
+                    ? "aria-selected:border-white aria-selected:mt-[-1.8px] aria-selected:border-t-2"
+                    : ""
+                } cursor-pointer transition ease-in duration-500`}
+              >
+                SAVED
+              </Link>
+            )}
             <Link
               to="tagged"
               aria-selected={pathname.endsWith("tagged")}

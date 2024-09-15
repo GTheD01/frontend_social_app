@@ -1,19 +1,19 @@
+import { ChangeEvent, useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+
 import { logout as setLogout } from "../../redux/features/authSlice";
 import {
   useLogoutMutation,
   useRetrieveSearchedUsersQuery,
 } from "../../redux/features/authApiSlice";
-
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import useDebounce from "../../hooks/useDebounce";
+import useSetUser from "../../hooks/useSetUser";
+import useFollowUser from "../../hooks/useFollowUser";
+import SearchUserDetails from "./SearchUserDetails";
 import Spinner from "../common/Spinner";
 
 import { IoSearchSharp } from "react-icons/io5";
-import { ChangeEvent, useEffect, useState } from "react";
-import useDebounce from "../../hooks/useDebounce";
-import useSetUser from "../../hooks/useSetUser";
-import SearchUserDetails from "./SearchUserDetails";
-import useFollowUser from "../../hooks/useFollowUser";
 
 const NavBar = () => {
   useSetUser();

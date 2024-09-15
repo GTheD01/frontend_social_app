@@ -9,6 +9,10 @@ module.exports = {
       gridTemplateColumns: {
         profile: "1fr 2fr",
       },
+      aspectRatio: {
+        "4/3": "4 / 3",
+        "9/16": "9 / 16",
+      },
     },
   },
   plugins: [],

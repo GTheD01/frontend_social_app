@@ -1,5 +1,6 @@
-import { useRetrieveSearchedUsersQuery } from "../../redux/features/authApiSlice";
 import { useSearchParams } from "react-router-dom";
+
+import { useRetrieveSearchedUsersQuery } from "../../redux/features/authApiSlice";
 import Spinner from "../../components/common/Spinner";
 import SearchUserDetails from "../../components/pagecomponents/SearchUserDetails";
 import useFollowUser from "../../hooks/useFollowUser";

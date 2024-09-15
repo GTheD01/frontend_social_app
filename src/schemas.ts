@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+// USER VALIDATION SCHEMAS
+
 export const LoginUserSchema = z.object({
   email: z.string().email("Invalid email"),
   password: z.string().min(8, "Password must contain at least 8 characters"),
@@ -47,6 +49,8 @@ export const ResetPasswordConfirmSchema = z
       path: ["re_new_password"],
     }
   );
+
+// POSTS VALIDATION SCHEMAS
 
 export const PostSchema = z.object({
   body: z.string().min(1, "Body text required"),
