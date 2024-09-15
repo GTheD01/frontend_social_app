@@ -60,41 +60,6 @@ const useInfiniteScroll = () => {
     };
   }, [handleScroll]);
 
-  // ----------------------------------------------------------------------
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (
-  //       window.innerHeight + document.documentElement.scrollTop >=
-  //       document.documentElement.scrollHeight - 150
-  //     ) {
-  //       if (cursor && !isLoading) {
-  //         setIsLoading(true);
-  //         triggerRetrievePosts(cursor)
-  //           .then((response) => {
-  //             dispatch(appendPosts(response.data?.results || []));
-
-  //             setCursor(
-  //               response.data?.next?.slice(
-  //                 response.data?.next.indexOf("=") + 1
-  //               ) || null
-  //             );
-  //           })
-  //           .finally(() => {
-  //             setIsLoading(false);
-  //           });
-  //       }
-  //     }
-  //   };
-
-  //   const throttleHandleScroll = throttle(handleScroll, 100);
-
-  //   window.addEventListener("scroll", throttleHandleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", throttleHandleScroll);
-  //   };
-  // }, [cursor, dispatch, isLoading, throttle, triggerRetrievePosts]);
-
   return {
     isLoading: result.isLoading,
     isFetching: result.isFetching,
