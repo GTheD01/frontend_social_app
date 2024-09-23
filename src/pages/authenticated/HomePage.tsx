@@ -5,13 +5,14 @@ import PostsList from "../../components/pagecomponents/PostsList";
 import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { useAppSelector } from "../../redux/hooks";
 
-import logo from "../../assets/result.png";
+import { useRetrievePopularPostQuery } from "../../redux/features/postsApiSlice";
 
 const HomePage = () => {
   const { isLoading, isFetching } = useInfiniteScroll();
 
   const { suggested_people } = useAppSelector((state) => state.user);
   const posts = useAppSelector((state) => state.post.posts);
+  const { data: popularPost } = useRetrievePopularPostQuery();
 
   return (
     <div className="flex justify-center gap-4 w-full h-full">
@@ -28,10 +29,15 @@ const HomePage = () => {
 
       <div className="mr-4 w-72 ">
         <PopularPost
-          postDate="29 Jul 2024"
-          logo={logo}
-          postTitle="Title of the Post"
-          postDescription="Text description of the ad that should be a little bit longer"
+          postId={popularPost?.id}
+          postDate={popularPost?.created_at_formatted}
+          logo={
+            popularPost?.attachments && popularPost.attachments.length > 0
+              ? popularPost?.attachments[0]?.get_image
+              : "/logo192.png"
+          }
+          postAuthor={popularPost?.created_by.username}
+          postContent={popularPost?.body}
         />
 
         <div className="bg-white p-4 mt-10 rounded-md">

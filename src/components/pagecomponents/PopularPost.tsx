@@ -1,18 +1,22 @@
+import { Link } from "react-router-dom";
+
 interface PopularPostProps {
-  logo: string;
-  postTitle: string;
-  postDescription: string;
-  postDate: string;
+  logo: string | undefined;
+  postAuthor: string | undefined;
+  postContent: string | undefined;
+  postDate: string | undefined;
+  postId: string | undefined;
 }
 
 const PopularPost = ({
   logo,
-  postDescription,
-  postTitle,
+  postContent,
+  postAuthor,
   postDate,
+  postId,
 }: PopularPostProps) => {
   return (
-    <div>
+    <Link to={`/post/${postId}`}>
       <div className="shadow-md rounded-t-md">
         <img
           src={logo}
@@ -21,12 +25,14 @@ const PopularPost = ({
         />
         <div className="bg-white p-4 flex flex-col gap-4 rounded-b-md">
           <h6 className="text-sky-500">Popular</h6>
-          <h3 className="font-semibold">{postTitle}</h3>
-          <p className="text-gray-400">{postDescription}</p>
+          <h3 className="font-semibold">
+            <span className="font-light">Post by</span>: {postAuthor}
+          </h3>
+          <p className="text-gray-400">{postContent}</p>
           <span className="text-gray-300 text-end">{postDate}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -66,12 +66,19 @@ export const postsApiSlice = apiSlice.injectEndpoints({
       query: (username) => `posts/saved/${username}`,
       providesTags: ["Post"],
     }),
+
+    retrievePopularPost: builder.query<PostProps, void>({
+      query: () => ({
+        url: "posts/popular-post/",
+      }),
+    }),
   }),
 });
 
 export const {
   useRetrieveProfilePostsQuery,
   useRetrievePostDetailsQuery,
+  useRetrievePopularPostQuery,
 
   useLazyRetrievePostsQuery,
 
