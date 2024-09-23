@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { logout as setLogout } from "../../redux/features/authSlice";
 import {
@@ -19,6 +19,7 @@ const NavBar = () => {
   useSetUser();
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const [logout] = useLogoutMutation();
   const [search, setSearch] = useState("");
@@ -61,6 +62,7 @@ const NavBar = () => {
       .unwrap()
       .then(() => {
         dispatch(setLogout());
+        navigate("/login");
         window.location.reload();
       });
   };
@@ -147,7 +149,12 @@ const NavBar = () => {
                 {link.text}
                 {link.text === "Notifications" && (
                   <span className="absolute top-0 right-0 text-white bg-red-500 rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                    {user.notifications_count}
+                    {user?.notifications_count}
+                  </span>
+                )}
+                {link.text === "Messages" && (
+                  <span className="absolute top-0 right-0 text-white bg-red-500 rounded-full w-5 h-5 text-xs flex items-center justify-center">
+                    {user?.received_messages_count}
                   </span>
                 )}
               </NavLink>

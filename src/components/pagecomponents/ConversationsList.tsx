@@ -1,4 +1,4 @@
-import { useRetrieveConversationsQuery } from "../../redux/features/authApiSlice";
+import { useRetrieveConversationsQuery } from "../../redux/features/conversationApiSlice";
 import ConversationDetails from "./ConversationDetails";
 
 const ConversationsList = () => {

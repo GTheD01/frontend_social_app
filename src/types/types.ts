@@ -60,6 +60,7 @@ export interface UserProps {
   user_follows: boolean;
   notifications_count: string;
   suggested_people: SuggestedPeopleProps[];
+  received_messages_count: string;
 }
 
 export interface PostProps {

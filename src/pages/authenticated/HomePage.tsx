@@ -37,7 +37,7 @@ const HomePage = () => {
         <div className="bg-white p-4 mt-10 rounded-md">
           <h2>Suggested people</h2>
           <div>
-            {suggested_people.map((person) => (
+            {suggested_people?.map((person) => (
               <SuggestedPeople
                 key={person.id}
                 username={person.username}

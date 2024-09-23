@@ -1,6 +1,5 @@
 import { RouterProvider } from "react-router-dom";
 
-import CustomProvider from "./redux/provider";
 import router from "./router/router";
 import Setup from "./lib/Setup";
 
@@ -9,10 +8,10 @@ import "./App.css";
 
 function App() {
   return (
-    <CustomProvider>
+    <>
       <Setup />
       <RouterProvider router={router} />
-    </CustomProvider>
+    </>
   );
 }
 

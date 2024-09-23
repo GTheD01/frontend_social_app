@@ -6,10 +6,8 @@ import {
   useParams,
 } from "react-router-dom";
 
-import {
-  useLazyGetOrCreateMessageQuery,
-  useRetrieveUserDetailsQuery,
-} from "../../redux/features/authApiSlice";
+import { useRetrieveUserDetailsQuery } from "../../redux/features/authApiSlice";
+import { useLazyGetOrCreateMessageQuery } from "../../redux/features/conversationApiSlice";
 import Spinner from "../../components/common/Spinner";
 import { useAppSelector } from "../../redux/hooks";
 import useFollowUser from "../../hooks/useFollowUser";

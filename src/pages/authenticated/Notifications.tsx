@@ -14,7 +14,7 @@ const Notifications = () => {
     readNotification(id)
       .unwrap()
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
