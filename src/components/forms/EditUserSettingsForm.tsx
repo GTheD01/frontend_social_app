@@ -75,7 +75,7 @@ const EditUserSettingsForm = () => {
             />
             <span
               className={`absolute inset-0 bg-gray-300 cursor-pointer rounded-full transition-all duration-400 before:absolute before:h-[26px] before:w-[26px] before:bg-white before:rounded-full before:bottom-[4px] before:left-[4px] before:transition before:duration-400 ${
-                mfaEnabled ? "bg-blue-500 before:translate-x-[26px]" : ""
+                mfaEnabled ? "bg-blue-400 before:translate-x-[26px]" : ""
               }`}
             ></span>
           </label>
