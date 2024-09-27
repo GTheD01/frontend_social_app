@@ -34,6 +34,14 @@ const EditUserSettingsForm = () => {
       />
 
       <div className="flex flex-col gap-3">
+        <div className="flex items-center gap-2">
+          <p>Multi-factor authentication</p>
+          <label className="relative inline-block w-[60px] h-[34px]">
+            <input type="checkbox" className="opacity-0 w-0 h-0 peer" />
+            <span className="absolute inset-0 bg-gray-300 cursor-pointer rounded-full transition-all duration-400 before:absolute before:h-[26px] before:w-[26px] before:bg-white before:rounded-full before:bottom-[4px] before:left-[4px] peer-checked:bg-blue-500 peer-checked:before:translate-x-[26px] before:transition before:duration-400"></span>
+          </label>
+        </div>
+
         <label htmlFor="full_name">
           <p>Full Name</p>
           <input
