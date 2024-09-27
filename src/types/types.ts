@@ -61,6 +61,7 @@ export interface UserProps {
   notifications_count: string;
   suggested_people: SuggestedPeopleProps[];
   received_messages_count: string;
+  mfa_enabled: boolean;
 }
 
 export interface PostProps {

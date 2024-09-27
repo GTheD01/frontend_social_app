@@ -65,6 +65,14 @@ export const authApiSlice = apiSlice.injectEndpoints({
       providesTags: ["User"],
     }),
 
+    toggleMfa: builder.mutation({
+      query: () => ({
+        url: "toggle-mfa/",
+        method: "POST",
+      }),
+      invalidatesTags: ["User"],
+    }),
+
     retrieveUsers: builder.query<UserProps[], void>({
       query: () => "/users/",
       providesTags: ["User"],
@@ -123,6 +131,7 @@ export const {
   useFollowUserMutation,
   useRegisterMutation,
 
+  useToggleMfaMutation,
   useVerifyMutation,
   useLoginMutation,
   useActivateUserMutation,

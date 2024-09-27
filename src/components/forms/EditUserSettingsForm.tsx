@@ -2,6 +2,11 @@ import { Form } from "react-router-dom";
 
 import useEditUserSettings from "../../hooks/useEditUserSettings";
 import Spinner from "../common/Spinner";
+import { useState } from "react";
+import Modal from "../pagecomponents/Modal";
+import { useToggleMfaMutation } from "../../redux/features/authApiSlice";
+import { useAppSelector } from "../../redux/hooks";
+import { toast } from "react-toastify";
 
 const EditUserSettingsForm = () => {
   const {
@@ -14,6 +19,32 @@ const EditUserSettingsForm = () => {
     email,
     isLoading,
   } = useEditUserSettings();
+
+  const [toggleMfa, { isLoading: mfaLoading }] = useToggleMfaMutation();
+  const mfaEnabled = useAppSelector((store) => store.user.mfa_enabled);
+
+  const [toggleMfaConfirmModal, setToggleMfaConfirmModal] =
+    useState<boolean>(false);
+
+  const closeModal = () => {
+    setToggleMfaConfirmModal(false);
+  };
+
+  const activateMfa = () => {
+    closeModal();
+    try {
+      toggleMfa(undefined)
+        .unwrap()
+        .then((response) => {
+          // toast.success("MFA");
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <Form onSubmit={onSubmit}>
@@ -37,10 +68,42 @@ const EditUserSettingsForm = () => {
         <div className="flex items-center gap-2">
           <p>Multi-factor authentication</p>
           <label className="relative inline-block w-[60px] h-[34px]">
-            <input type="checkbox" className="opacity-0 w-0 h-0 peer" />
-            <span className="absolute inset-0 bg-gray-300 cursor-pointer rounded-full transition-all duration-400 before:absolute before:h-[26px] before:w-[26px] before:bg-white before:rounded-full before:bottom-[4px] before:left-[4px] peer-checked:bg-blue-500 peer-checked:before:translate-x-[26px] before:transition before:duration-400"></span>
+            <input
+              type="checkbox"
+              className="opacity-0 w-0 h-0 peer"
+              onClick={() => setToggleMfaConfirmModal((state) => true)}
+            />
+            <span
+              className={`absolute inset-0 bg-gray-300 cursor-pointer rounded-full transition-all duration-400 before:absolute before:h-[26px] before:w-[26px] before:bg-white before:rounded-full before:bottom-[4px] before:left-[4px] before:transition before:duration-400 ${
+                mfaEnabled ? "bg-blue-500 before:translate-x-[26px]" : ""
+              }`}
+            ></span>
           </label>
         </div>
+
+        {toggleMfaConfirmModal && (
+          <Modal closeModal={closeModal}>
+            <h1 className="text-2xl w-[18ch] text-center">
+              Are you sure you want to continue?
+            </h1>
+            <div className="flex justify-between mx-4 mt-10">
+              <button
+                type="button"
+                className="bg-green-500 py-2 px-4"
+                onClick={activateMfa}
+              >
+                Yes
+              </button>
+              <button
+                type="button"
+                className="bg-red-500 py-2 px-4"
+                onClick={closeModal}
+              >
+                No
+              </button>
+            </div>
+          </Modal>
+        )}
 
         <label htmlFor="full_name">
           <p>Full Name</p>
