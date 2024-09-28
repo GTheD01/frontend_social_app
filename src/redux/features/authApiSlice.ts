@@ -1,7 +1,9 @@
 import {
   ActivateUserProps,
+  LoginResponse,
   LoginUserProps,
   LoginUserResponseProps,
+  LoginUserWithMFAProps,
   NotificationProps,
   RegisterUserProps,
   RegisterUserResponseProps,
@@ -26,7 +28,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
-    login: builder.mutation<LoginUserResponseProps, LoginUserProps>({
+    login: builder.mutation<LoginResponse, LoginUserProps>({
       query: ({ email, password }) => ({
         url: "/jwt/create/",
         method: "POST",
@@ -71,6 +73,17 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
       invalidatesTags: ["User"],
+    }),
+
+    verifyMfa: builder.mutation({
+      query: ({ otp, email }) => ({
+        url: "verify-otp/",
+        body: {
+          otp: otp,
+          email: email,
+        },
+        method: "POST",
+      }),
     }),
 
     retrieveUsers: builder.query<UserProps[], void>({
@@ -131,6 +144,7 @@ export const {
   useFollowUserMutation,
   useRegisterMutation,
 
+  useVerifyMfaMutation,
   useToggleMfaMutation,
   useVerifyMutation,
   useLoginMutation,

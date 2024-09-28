@@ -20,7 +20,7 @@ const EditUserSettingsForm = () => {
     isLoading,
   } = useEditUserSettings();
 
-  const [toggleMfa, { isLoading: mfaLoading }] = useToggleMfaMutation();
+  const [toggleMfa] = useToggleMfaMutation();
   const mfaEnabled = useAppSelector((store) => store.user.mfa_enabled);
 
   const [toggleMfaConfirmModal, setToggleMfaConfirmModal] =
@@ -36,7 +36,11 @@ const EditUserSettingsForm = () => {
       toggleMfa(undefined)
         .unwrap()
         .then((response) => {
-          // toast.success("MFA");
+          if (response.mfa) {
+            toast.success("MFA enabled");
+          } else {
+            toast.warning("MFA disabled");
+          }
         })
         .catch((e) => {
           console.log(e);
@@ -88,20 +92,26 @@ const EditUserSettingsForm = () => {
 
         {toggleMfaConfirmModal && (
           <Modal closeModal={closeModal}>
-            <h1 className="text-2xl w-[18ch] text-center">
-              Are you sure you want to continue?
+            <h1 className="text-xl w-[25ch] text-center">
+              Are you sure you want to{" "}
+              <span
+                className={`${mfaEnabled ? "text-red-500" : "text-green-500"}`}
+              >
+                {mfaEnabled ? "disable" : "enable"}
+              </span>{" "}
+              the Multi-factor authentication?
             </h1>
             <div className="flex justify-between mx-4 mt-10">
               <button
                 type="button"
-                className="bg-green-500 py-2 px-4"
+                className="bg-green-500 py-2 px-4 hover:bg-green-400"
                 onClick={activateMfa}
               >
                 Yes
               </button>
               <button
                 type="button"
-                className="bg-red-500 py-2 px-4"
+                className="bg-red-500 py-2 px-4 hover:bg-red-400"
                 onClick={closeModal}
               >
                 No

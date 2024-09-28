@@ -15,6 +15,7 @@ import UserPosts from "../pages/authenticated/UserPosts";
 import Messages from "../pages/authenticated/Messages";
 import Conversation from "../pages/authenticated/Conversation";
 import Notifications from "../pages/authenticated/Notifications";
+import VerifyOtp from "../pages/VerifyOtp";
 
 // import UsersSearchPage from "../pages/authenticated/UsersSearchPage";
 // import PostPage from "../pages/authenticated/PostPage";
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginPage />,
+      },
+      {
+        path: "verify-otp",
+        element: <VerifyOtp />,
       },
       {
         path: "register",

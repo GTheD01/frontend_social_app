@@ -25,6 +25,13 @@ export interface LoginUserResponseProps {
   access: string;
 }
 
+export interface LoginUserWithMFAProps {
+  message: string;
+  otp: boolean;
+}
+
+export type LoginResponse = LoginUserResponseProps | LoginUserWithMFAProps;
+
 export interface ActivateUserProps {
   uid?: string;
   token?: string;
