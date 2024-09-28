@@ -15,6 +15,7 @@ const initialState: UserProps & { isLoading?: boolean } = {
   user_follows: false,
   suggested_people: [],
   received_messages_count: "",
+  mfa_enabled: false,
 };
 
 const userSlice = createSlice({
@@ -34,6 +35,7 @@ const userSlice = createSlice({
       state.notifications_count = payload.notifications_count;
       state.suggested_people = payload.suggested_people;
       state.received_messages_count = payload.received_messages_count;
+      state.mfa_enabled = payload.mfa_enabled;
     },
     setIsLoading: (state, { payload }) => {
       state.isLoading = payload;

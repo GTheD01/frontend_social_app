@@ -25,6 +25,13 @@ export interface LoginUserResponseProps {
   access: string;
 }
 
+export interface LoginUserWithMFAProps {
+  message: string;
+  otp: boolean;
+}
+
+export type LoginResponse = LoginUserResponseProps | LoginUserWithMFAProps;
+
 export interface ActivateUserProps {
   uid?: string;
   token?: string;
@@ -61,6 +68,7 @@ export interface UserProps {
   notifications_count: string;
   suggested_people: SuggestedPeopleProps[];
   received_messages_count: string;
+  mfa_enabled: boolean;
 }
 
 export interface PostProps {

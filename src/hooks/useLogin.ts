@@ -36,10 +36,16 @@ const useLogin = () => {
       setErrors({});
       login({ email, password })
         .unwrap()
-        .then(() => {
-          dispatch(setAuth());
-          toast.success("Logged in");
-          navigate("/home");
+        .then((response) => {
+          if ("otp" in response) {
+            if (response.otp) {
+              navigate(`/verify-otp?email=${email}`);
+            }
+          } else {
+            dispatch(setAuth());
+            toast.success("Logged in");
+            navigate("/home");
+          }
         })
         .catch(() => {
           toast.error("Failed to log in");
