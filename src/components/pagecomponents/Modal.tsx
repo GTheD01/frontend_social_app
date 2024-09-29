@@ -1,5 +1,4 @@
 import { MouseEventHandler } from "react";
-import { Dispatch } from "redux";
 
 interface ModalProps {
   closeModal: MouseEventHandler<HTMLButtonElement>;

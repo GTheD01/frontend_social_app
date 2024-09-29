@@ -2,8 +2,6 @@ import {
   ActivateUserProps,
   LoginResponse,
   LoginUserProps,
-  LoginUserResponseProps,
-  LoginUserWithMFAProps,
   NotificationProps,
   RegisterUserProps,
   RegisterUserResponseProps,

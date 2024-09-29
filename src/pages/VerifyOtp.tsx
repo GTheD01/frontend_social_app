@@ -61,7 +61,7 @@ export default function VerifyOtp() {
         console.log(error);
       }
     }
-  }, [otp]);
+  }, [otp, dispatch, email, navigate, verifyMfa]);
 
   return (
     <article className="text-center">
