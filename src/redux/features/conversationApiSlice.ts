@@ -9,14 +9,6 @@ export const conversationApiSlice = apiSlice.injectEndpoints({
       query: (userId) => `chat/get-or-create/${userId}`,
       providesTags: ["Messages", "User"],
     }),
-    sendMessage: builder.mutation({
-      query: ({ conversationId, message }) => ({
-        url: `chat/send/${conversationId}/`,
-        method: "POST",
-        body: { message: message },
-      }),
-      invalidatesTags: ["Messages", "User"],
-    }),
     conversationDetails: builder.query<
       ConversationDetailsProps,
       Params<string>
@@ -45,5 +37,4 @@ export const {
   useConversationDetailsQuery,
   useRetrieveConversationsQuery,
   useLazyGetOrCreateMessageQuery,
-  useSendMessageMutation,
 } = conversationApiSlice;

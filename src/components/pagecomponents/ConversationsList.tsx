@@ -1,8 +1,8 @@
 import { useRetrieveConversationsQuery } from "../../redux/features/conversationApiSlice";
-import ConversationDetails from "./ConversationDetails";
+import ConversationDetails from "./ConversationListDetails";
 
 const ConversationsList = () => {
-  const { data, refetch } = useRetrieveConversationsQuery();
+  const { data: conversations, refetch } = useRetrieveConversationsQuery();
 
   const refetchHandler = () => {
     refetch();
@@ -11,7 +11,7 @@ const ConversationsList = () => {
   return (
     <section className="border-r-gray-300 border-r overflow-y-auto w-[350px]">
       <p className="mb-4 font-bold tracking-wide text-xl">Conversations</p>
-      {data?.map((conversation) => (
+      {conversations?.map((conversation) => (
         <ConversationDetails
           onClick={refetchHandler}
           lastMessageReceived={conversation.last_received_message}
