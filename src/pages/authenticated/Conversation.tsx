@@ -1,35 +1,47 @@
-import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
-import { Form, Link, useParams } from "react-router-dom";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
+import { Form, useParams } from "react-router-dom";
 
-import {
-  useConversationDetailsQuery,
-  useSendMessageMutation,
-} from "../../redux/features/conversationApiSlice";
+import { useConversationDetailsQuery } from "../../redux/features/conversationApiSlice";
 import { useAppSelector } from "../../redux/hooks";
+import useWebSocket from "react-use-websocket";
+import { MessageProps, UserProps } from "../../types/types";
+import ConversationMessages from "../../components/pagecomponents/ConversationMessages";
 
 const Conversation = () => {
   const [message, setMessage] = useState("");
   const { conversationId } = useParams();
-  const loggedUser = useAppSelector((state) => state.user);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [realtimeMessages, setRealtimeMessages] = useState<MessageProps[]>([]);
 
-  const [sendMessage] = useSendMessageMutation();
-  const { data } = useConversationDetailsQuery({ conversationId });
+  const { data: conversation } = useConversationDetailsQuery({
+    conversationId,
+  });
 
-  const sendMessageHandler = (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const loggedUser = useAppSelector((state) => state.user);
+  const otherUser = conversation?.users.find(
+    (user) => user.id !== loggedUser.id
+  );
 
-    sendMessage({ conversationId: conversationId, message: message })
-      .unwrap()
-      .then((res) => {
-        // console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setMessage("");
-      });
+  const { sendJsonMessage, lastJsonMessage } = useWebSocket(
+    `ws://127.0.0.1:8000/ws/${conversationId}/`,
+    {
+      share: false,
+      shouldReconnect: () => true,
+    }
+  );
+
+  const sendMessageHandler = async () => {
+    sendJsonMessage({
+      event: "chat_message",
+      data: {
+        body: message,
+        name: loggedUser.username,
+        sent_to_id: otherUser?.id,
+        conversation_id: conversationId,
+      },
+    });
+
+    setMessage("");
   };
 
   const onEnterClickHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -42,55 +54,49 @@ const Conversation = () => {
   };
 
   useEffect(() => {
+    if (
+      lastJsonMessage &&
+      typeof lastJsonMessage === "object" &&
+      "name" in lastJsonMessage &&
+      "body" in lastJsonMessage
+    ) {
+      const message: MessageProps = {
+        id: "",
+        body: lastJsonMessage.body as string,
+        sent_to: otherUser as UserProps,
+        created_by: loggedUser as UserProps,
+        created_at_formatted: `0 minutes`,
+      };
+      setRealtimeMessages((realtimeMessages) => [...realtimeMessages, message]);
+    }
+
+    setTimeout(() => {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView();
+      }
+    }, 50);
+  }, [lastJsonMessage, loggedUser, otherUser]);
+
+  useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView();
     }
-  }, [data?.messages]);
+  }, [conversation?.messages]);
 
   return (
     <section className="w-[calc(100%-350px)] flex flex-col">
       <div className="overflow-y-auto h-full">
-        <div className=" flex flex-col justify-end  overflow-y min-h-full">
-          {data?.messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex flex-col p-3 ${
-                message.created_by.id === loggedUser.id
-                  ? "items-end"
-                  : "items-start"
-              }`}
-            >
-              <div className="flex gap-2">
-                {message.created_by.id !== loggedUser.id && (
-                  <Link to={`/profile/${message.created_by.username}`}>
-                    <img
-                      alt="other user avatar"
-                      src={message.created_by.get_avatar}
-                      className="w-10 h-10 rounded-full"
-                    />
-                  </Link>
-                )}
-                <div
-                  className={`text-end flex flex-col ${
-                    message.created_by.id === loggedUser.id && "items-end"
-                  }`}
-                >
-                  <p
-                    className={`px-3 py-2 w-fit rounded-2xl ${
-                      message.created_by.id === loggedUser.id
-                        ? "bg-sky-500 text-white"
-                        : "bg-gray-300"
-                    }`}
-                  >
-                    {message.body}
-                  </p>
-                  <span className="text-gray-500 text-xs tracking-tighter">
-                    {message.created_at_formatted} ago
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className=" flex flex-col justify-end overflow-y min-h-full">
+          <ConversationMessages
+            messages={conversation?.messages}
+            loggedUser={loggedUser}
+          />
+
+          <ConversationMessages
+            messages={realtimeMessages}
+            loggedUser={loggedUser}
+          />
+
           <div ref={messagesEndRef} />
         </div>
       </div>
