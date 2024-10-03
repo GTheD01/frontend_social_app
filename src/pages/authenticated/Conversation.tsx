@@ -23,7 +23,7 @@ const Conversation = () => {
   );
 
   const { sendJsonMessage, lastJsonMessage } = useWebSocket(
-    `ws://127.0.0.1:8000/ws/${conversationId}/`,
+    `ws://127.0.0.1:8000/ws/chat/${conversationId}/`,
     {
       share: false,
       shouldReconnect: () => true,
@@ -53,19 +53,24 @@ const Conversation = () => {
     }
   };
 
+  // TODO:  MESSAGES COUNT IMPLEMENT
   useEffect(() => {
     if (
       lastJsonMessage &&
       typeof lastJsonMessage === "object" &&
       "name" in lastJsonMessage &&
-      "body" in lastJsonMessage
+      "body" in lastJsonMessage &&
+      "message_id" in lastJsonMessage &&
+      "created_at" in lastJsonMessage &&
+      "created_by_id" in lastJsonMessage
     ) {
+      const isOwner = lastJsonMessage?.created_by_id === loggedUser.id;
       const message: MessageProps = {
-        id: "",
+        id: lastJsonMessage.message_id as string,
         body: lastJsonMessage.body as string,
         sent_to: otherUser as UserProps,
-        created_by: loggedUser as UserProps,
-        created_at_formatted: `0 minutes`,
+        created_by: isOwner ? loggedUser : (otherUser as UserProps),
+        created_at_formatted: lastJsonMessage.created_at as string,
       };
       setRealtimeMessages((realtimeMessages) => [...realtimeMessages, message]);
     }
@@ -88,14 +93,14 @@ const Conversation = () => {
       <div className="overflow-y-auto h-full">
         <div className=" flex flex-col justify-end overflow-y min-h-full">
           <ConversationMessages
-            messages={conversation?.messages}
+            messages={[...(conversation?.messages || []), ...realtimeMessages]}
             loggedUser={loggedUser}
           />
 
-          <ConversationMessages
+          {/* <ConversationMessages
             messages={realtimeMessages}
             loggedUser={loggedUser}
-          />
+          /> */}
 
           <div ref={messagesEndRef} />
         </div>

@@ -4,16 +4,22 @@ import {
   useReadNotificationMutation,
   useRetrieveNotificationsQuery,
 } from "../../redux/features/authApiSlice";
+import { useContext } from "react";
+import {
+  useWebSocketContext,
+  WebSocketContext,
+} from "../../providers/WebSocketContext";
 
 const Notifications = () => {
-  const { data } = useRetrieveNotificationsQuery();
-
+  // const { data } = useRetrieveNotificationsQuery();
+  const { notifications, setNotificationsCount } = useWebSocketContext();
   const [readNotification] = useReadNotificationMutation();
 
   const readNotificationHandler = (id: string) => {
     readNotification(id)
       .unwrap()
       .then((res) => {
+        setNotificationsCount((count) => count - 1);
         // console.log(res);
       })
       .catch((err) => {
@@ -24,7 +30,7 @@ const Notifications = () => {
   return (
     <div className="flex flex-col items-start gap-4">
       <h2 className="font-bold">New</h2>
-      {data?.map((notification) => (
+      {notifications?.map((notification) => (
         <Link
           onClick={() => readNotificationHandler(notification.id)}
           to={`${
@@ -35,7 +41,7 @@ const Notifications = () => {
           className={`border border-gray-300 p-4 rounded-2xl  ${
             notification.is_read ? "" : "bg-blue-100"
           }`}
-          key={notification.id}
+          key={notification?.id}
         >
           <p className="font-semibold">{notification?.body}</p>
         </Link>

@@ -92,11 +92,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
       query: (search) => `/users/search?search=${search}`,
       providesTags: ["User"],
     }),
-    // TODO: Change POST to PATCH
     editProfile: builder.mutation({
       query: (formData) => ({
         url: "profile/edit/",
-        method: "POST",
+        method: "PATCH",
         body: formData,
       }),
       invalidatesTags: ["User"],
@@ -137,6 +136,7 @@ export const {
   useRetrieveUserDetailsQuery,
   useRetrieveSearchedUsersQuery,
   useRetrieveNotificationsQuery,
+  useLazyRetrieveNotificationsQuery,
 
   useReadNotificationMutation,
 

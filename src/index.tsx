@@ -4,6 +4,7 @@ import App from "./App";
 
 import "./index.css";
 import CustomProvider from "./redux/provider";
+import { WebSocketProvider } from "./providers/WebSocketContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   // <React.StrictMode>
   <CustomProvider>
-    <App />
+    <WebSocketProvider>
+      <App />
+    </WebSocketProvider>
   </CustomProvider>
   //</React.StrictMode>
 );
