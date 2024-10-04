@@ -78,6 +78,7 @@ const usePostCreate = () => {
         setError({});
       })
       .catch((err) => {
+        console.log(err);
         setError({ error: err.data.error });
       });
   };

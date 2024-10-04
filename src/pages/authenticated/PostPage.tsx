@@ -35,6 +35,7 @@ const PostPage = () => {
     commentPost({ postId: postId, body: commentBody })
       .unwrap()
       .then((res) => {
+        setCommentError("");
         toast.success("Comment posted");
       })
       .catch((error) => {

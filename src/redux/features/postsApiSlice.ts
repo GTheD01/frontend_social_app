@@ -10,7 +10,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     }),
     createPost: builder.mutation({
       query: (formData) => ({
-        url: "/posts/create/",
+        url: "/posts/",
         method: "POST",
         body: formData,
       }),
@@ -40,7 +40,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     }),
     deletePost: builder.mutation({
       query: (id) => ({
-        url: `posts/delete/${id}/`,
+        url: `posts/${id}/`,
         method: "DELETE",
       }),
       invalidatesTags: ["Post"],
@@ -57,7 +57,7 @@ export const postsApiSlice = apiSlice.injectEndpoints({
     removeComment: builder.mutation({
       query: ({ postId, commentId }) => ({
         url: `posts/${postId}/comment/delete/${commentId}/`,
-        method: "POST",
+        method: "DELETE",
       }),
       invalidatesTags: ["Post"],
     }),

@@ -90,8 +90,8 @@ const Post = ({
     dispatch(updateDeletePost(postId));
     deletePost(postId)
       .unwrap()
-      .then((response) => {
-        toast.success(response.message);
+      .then(() => {
+        toast.success("Post deleted");
         navigate("/home");
       })
       .catch((err) => {
