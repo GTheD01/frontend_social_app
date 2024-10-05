@@ -121,7 +121,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
     readNotification: builder.mutation({
       query: (notificationId) => ({
         url: `notifications/read/${notificationId}/`,
-        method: "POST",
+        method: "PATCH",
       }),
       invalidatesTags: ["Notifications", "User"],
     }),

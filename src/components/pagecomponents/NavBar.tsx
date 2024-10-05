@@ -33,7 +33,6 @@ const NavBar = () => {
 
   const user = useAppSelector((state) => state.user);
   const { isLoading } = user;
-
   const followUser = useFollowUser();
 
   const links = [
