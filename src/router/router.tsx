@@ -16,6 +16,7 @@ import Messages from "../pages/authenticated/Messages";
 import Conversation from "../pages/authenticated/Conversation";
 import Notifications from "../pages/authenticated/Notifications";
 import VerifyOtp from "../pages/VerifyOtp";
+import { NotificationsWebSocketProvider } from "../providers/NotificationsWebSocketContext";
 
 // import UsersSearchPage from "../pages/authenticated/UsersSearchPage";
 // import PostPage from "../pages/authenticated/PostPage";
@@ -69,7 +70,11 @@ const router = createBrowserRouter([
     ],
   },
   {
-    element: <RequireAuth />,
+    element: (
+      <NotificationsWebSocketProvider>
+        <RequireAuth />
+      </NotificationsWebSocketProvider>
+    ),
     children: [
       {
         element: (

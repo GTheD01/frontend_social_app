@@ -1,26 +1,25 @@
 import { Link } from "react-router-dom";
 
-import {
-  useReadNotificationMutation,
-  useRetrieveNotificationsQuery,
-} from "../../redux/features/authApiSlice";
-import { useContext } from "react";
-import {
-  useWebSocketContext,
-  WebSocketContext,
-} from "../../providers/WebSocketContext";
+import { useReadNotificationMutation } from "../../redux/features/authApiSlice";
+
+import { useNotificationsWebSocketContext } from "../../providers/NotificationsWebSocketContext";
+import { useAppDispatch } from "../../redux/hooks";
+import { setNotificationsCount } from "../../redux/features/userSlice";
 
 const Notifications = () => {
-  // const { data } = useRetrieveNotificationsQuery();
-  const { notifications, setNotificationsCount } = useWebSocketContext();
+  const { notifications, setNotifications } =
+    useNotificationsWebSocketContext();
   const [readNotification] = useReadNotificationMutation();
+  const dispatch = useAppDispatch();
 
   const readNotificationHandler = (id: string) => {
     readNotification(id)
       .unwrap()
       .then((res) => {
-        setNotificationsCount((count) => count - 1);
-        // console.log(res);
+        setNotifications((prevNotifications) =>
+          prevNotifications.filter((notification) => notification.id !== id)
+        );
+        dispatch(setNotificationsCount({ count: -1 }));
       })
       .catch((err) => {
         console.log(err);

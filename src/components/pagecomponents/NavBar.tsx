@@ -14,7 +14,6 @@ import SearchUserDetails from "./SearchUserDetails";
 import Spinner from "../common/Spinner";
 
 import { IoSearchSharp } from "react-icons/io5";
-import { useWebSocketContext } from "../../providers/WebSocketContext";
 
 const NavBar = () => {
   useSetUser();
@@ -25,8 +24,6 @@ const NavBar = () => {
   const [logout] = useLogoutMutation();
   const [search, setSearch] = useState("");
   const debounceValue = useDebounce({ value: search, delay: 300 });
-
-  const { notificationsCount } = useWebSocketContext();
 
   const { data, isLoading: usersLoading } =
     useRetrieveSearchedUsersQuery(debounceValue);
@@ -151,7 +148,7 @@ const NavBar = () => {
                 {link.text}
                 {link.text === "Notifications" && (
                   <span className="absolute top-0 right-0 text-white bg-red-500 rounded-full w-5 h-5 text-xs flex items-center justify-center">
-                    {notificationsCount}
+                    {user?.notifications_count}
                   </span>
                 )}
                 {link.text === "Messages" && (

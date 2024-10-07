@@ -65,9 +65,9 @@ export interface UserProps {
   followers_count: string;
   following_count: string;
   user_follows: boolean;
-  notifications_count: string;
+  notifications_count: number;
   suggested_people: SuggestedPeopleProps[];
-  received_messages_count: string;
+  received_messages_count: number;
   mfa_enabled: boolean;
 }
 
@@ -115,6 +115,7 @@ export interface ConversationProps {
   modified_at_formatted: string;
   user: UserProps;
   last_received_message: LastReceivedMessageProps;
+  messages: MessageProps[];
 }
 
 export interface MessageProps {
