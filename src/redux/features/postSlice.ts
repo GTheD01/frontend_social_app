@@ -4,11 +4,15 @@ import { PostProps } from "../../types/types";
 
 interface AuthState {
   actionModal: string | null;
+  sharePostModal: boolean;
+  postToShare: PostProps | undefined;
   posts: PostProps[];
 }
 
 const initialState = {
   actionModal: null,
+  sharePostModal: false,
+  postToShare: undefined,
   posts: [],
 } as AuthState;
 
@@ -16,6 +20,12 @@ const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
+    setPostToShare: (state, { payload }) => {
+      state.postToShare = payload.post;
+    },
+    setSharePostModal: (state, { payload }) => {
+      state.sharePostModal = payload.state;
+    },
     toggleActionModal: (state, { payload }) => {
       state.actionModal = state.actionModal === payload.id ? null : payload.id;
     },
@@ -90,6 +100,7 @@ const postSlice = createSlice({
 });
 
 export const {
+  setSharePostModal,
   toggleActionModal,
   closeActionModal,
   updateDeletePost,
@@ -101,5 +112,6 @@ export const {
   addPostComment,
   deletePostComments,
   appendPosts,
+  setPostToShare,
 } = postSlice.actions;
 export default postSlice.reducer;

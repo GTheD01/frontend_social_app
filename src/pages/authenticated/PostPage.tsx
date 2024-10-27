@@ -19,7 +19,7 @@ const PostPage = () => {
   const [commentError, setCommentError] = useState("");
   const dispatch = useDispatch();
 
-  const { data, isLoading } = useRetrievePostDetailsQuery(postId);
+  const { data: post, isLoading } = useRetrievePostDetailsQuery(postId);
 
   useEffect(() => {
     if (!isLoading) {
@@ -51,20 +51,7 @@ const PostPage = () => {
           <Spinner lg />
         ) : (
           <div>
-            <Post
-              comments_count={data?.comments_count}
-              comments={data?.comments}
-              post_owner={data?.post_owner}
-              post_saved={data?.post_saved}
-              attachments={data?.attachments}
-              user_liked={data?.user_liked}
-              likes_count={data?.likes_count}
-              image={data?.created_by.get_avatar}
-              username={data?.created_by.username}
-              body={data?.body}
-              created_at={data?.created_at_formatted}
-              postId={data?.id}
-            />
+            <Post post={post} onPostPage={true} />
 
             <Form className="mt-8" onSubmit={(e) => commentPostHandler(e)}>
               <div className="relative w-full">

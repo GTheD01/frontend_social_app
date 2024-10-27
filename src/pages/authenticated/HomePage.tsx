@@ -6,9 +6,11 @@ import useInfiniteScroll from "../../hooks/useInfiniteScroll";
 import { useAppSelector } from "../../redux/hooks";
 
 import { useRetrievePopularPostQuery } from "../../redux/features/postsApiSlice";
+import SharePostModal from "../../components/pagecomponents/SharePostModal";
 
 const HomePage = () => {
   const { isLoading, isFetching } = useInfiniteScroll();
+  const sharePostModal = useAppSelector((state) => state.post.sharePostModal);
 
   const { suggested_people } = useAppSelector((state) => state.user);
   const posts = useAppSelector((state) => state.post.posts);
@@ -26,6 +28,7 @@ const HomePage = () => {
           />
         )}
       </div>
+      {sharePostModal && <SharePostModal />}
 
       <div className="mr-4 w-72 ">
         <PopularPost

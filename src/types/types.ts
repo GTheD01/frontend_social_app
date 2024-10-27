@@ -81,8 +81,10 @@ export interface PostProps {
   user_liked: boolean;
   post_saved: boolean;
   post_owner: boolean;
-  comments: CommentProps[];
+  comments?: CommentProps[];
+  subtitle?: string;
   comments_count: string;
+  shared: PostProps;
 }
 
 export interface RetrievePostsResponse {
